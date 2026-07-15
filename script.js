@@ -478,16 +478,53 @@ function initShareLinks() {
 
   document.getElementById('share-wa').href    = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + url)}`;
   document.getElementById('share-fb').href    = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  document.getElementById('share-tw').href    = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
   document.getElementById('share-email').href = `mailto:?subject=${encodeURIComponent('In Loving Memory of Nkechi Stella Rhodes-Vivour')}&body=${encodeURIComponent(text + url)}`;
+
+  const copyBtn = document.getElementById('share-copylink');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('Link copied to clipboard!');
+      }).catch((err) => {
+        // Fallback for older browsers
+        const tempInput = document.createElement('input');
+        tempInput.value = url;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showToast('Link copied to clipboard!');
+      });
+    });
+  }
 
   document.querySelectorAll('.share-icon').forEach(icon => {
     icon.addEventListener('click', (e) => {
-      if (url.startsWith('file://')) {
+      const id = icon.id;
+      if (url.startsWith('file://') && (id === 'share-wa' || id === 'share-fb' || id === 'share-tw')) {
         e.preventDefault();
         alert('Social sharing requires the site to be hosted online (e.g. Netlify or GitHub Pages).');
       }
     });
   });
+}
+
+function showToast(message) {
+  let toast = document.getElementById('share-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'share-toast';
+    toast.className = 'toast-notification';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<i class="fas fa-check-circle"></i> <span>${message}</span>`;
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
 }
 
 /* -------------------------------------------------------------
