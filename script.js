@@ -274,9 +274,6 @@ function initAudioPlayer() {
 
   const icon = btn.querySelector('i');
   const text = btn.querySelector('.music-text');
-  audio.volume = 0.75;
-
-  let interactionHandled = false;
 
   function setPlaying() {
     btn.classList.add('playing');
@@ -290,27 +287,46 @@ function initAudioPlayer() {
     text.innerText = 'Play Music';
   }
 
-  // Attempt immediate autoplay (works if user visited before / browser allows)
-  audio.play().then(setPlaying).catch(() => {
-    // Blocked — listen for first interaction anywhere on the page
-    const onInteraction = () => {
-      if (interactionHandled) return;
-      interactionHandled = true;
-      audio.play().then(setPlaying).catch(() => {});
-      document.removeEventListener('click',      onInteraction);
-      document.removeEventListener('touchstart', onInteraction);
-    };
-    document.addEventListener('click',      onInteraction);
-    document.addEventListener('touchstart', onInteraction);
+  // ── Muted autoplay (allowed on all mobile browsers) ──
+  audio.volume = 0.75;
+  audio.muted  = true;
+
+  audio.play().then(() => {
+    // Playing muted — now show a nudge banner prompting unmute
+    showAudioNudge();
+  }).catch(() => {
+    // Autoplay fully blocked — wait for any interaction
+    setPaused();
   });
 
-  // Manual toggle — stop propagation so it doesn't fire onInteraction
+  // ── Nudge banner ──
+  function showAudioNudge() {
+    if (document.getElementById('audio-nudge')) return;
+    const nudge = document.createElement('div');
+    nudge.id = 'audio-nudge';
+    nudge.setAttribute('role', 'status');
+    nudge.innerHTML = `<i class="fas fa-music"></i> Tap anywhere to enable music`;
+    document.body.appendChild(nudge);
+
+    const dismiss = () => {
+      audio.muted = false;
+      setPlaying();
+      nudge.classList.add('nudge-hide');
+      setTimeout(() => nudge.remove(), 600);
+      document.removeEventListener('click',      dismiss);
+      document.removeEventListener('touchstart', dismiss);
+    };
+    document.addEventListener('click',      dismiss);
+    document.addEventListener('touchstart', dismiss);
+  }
+
+  // ── Manual toggle button ──
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
-    interactionHandled = true;
-    document.removeEventListener('click',      () => {});
-    document.removeEventListener('touchstart', () => {});
-
+    if (audio.muted) {
+      audio.muted = false;
+      document.getElementById('audio-nudge')?.remove();
+    }
     if (audio.paused) {
       audio.play().then(setPlaying).catch(() => {});
     } else {
@@ -319,6 +335,7 @@ function initAudioPlayer() {
     }
   });
 }
+
 
 /* -------------------------------------------------------------
    BIOGRAPHY TABS

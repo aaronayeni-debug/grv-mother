@@ -202,11 +202,12 @@ h1, h2, h3, h4 {
 
 .logo a {
   font-family: var(--font-heading);
-  font-size: 1.8rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   color: var(--color-gold-dark);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
 }
 
 .desktop-nav ul {
@@ -1617,8 +1618,53 @@ h1, h2, h3, h4 {
     width: 100%;
   }
 
+
   .audio-control-container {
     bottom: 85px; /* Position above mobile navigation bar */
     right: 15px;
   }
+}
+
+/* -------------------------------------------------------------
+   AUDIO NUDGE BANNER (mobile tap-to-enable)
+   ------------------------------------------------------------- */
+#audio-nudge {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: rgba(92, 51, 23, 0.92);
+  color: #f5ede0;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 1.4rem;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  animation: nudge-in 0.4s ease forwards;
+  pointer-events: none;
+}
+
+#audio-nudge i {
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.nudge-hide {
+  animation: nudge-out 0.5s ease forwards !important;
+}
+
+@keyframes nudge-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes nudge-out {
+  from { opacity: 1; transform: translateX(-50%) translateY(0); }
+  to   { opacity: 0; transform: translateX(-50%) translateY(20px); }
 }
