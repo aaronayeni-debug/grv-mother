@@ -377,7 +377,7 @@ function initFormSubmit() {
     const payload = {
       name:         document.getElementById('writer-name').value.trim(),
       relationship: document.getElementById('writer-relationship').value,
-      contact:      document.getElementById('writer-contact').value.trim() || null,
+      contact:      null,
       comment:      document.getElementById('writer-comment').value.trim(),
       created_at:   new Date().toISOString()
     };

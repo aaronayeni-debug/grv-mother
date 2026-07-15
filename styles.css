@@ -1404,6 +1404,7 @@ h1, h2, h3, h4 {
   letter-spacing: 0.05em;
   color: var(--color-gold-gold);
   margin-top: 0.3rem;
+  white-space: nowrap;
 }
 
 /* -------------------------------------------------------------
