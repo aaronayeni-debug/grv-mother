@@ -1,0 +1,1624 @@
+/* -------------------------------------------------------------
+   DESIGN SYSTEM & VARIABLES
+   ------------------------------------------------------------- */
+:root {
+  /* Vintage / Nostalgic Color Palette */
+  --color-bg-paper: #fbf8f3;
+  --color-bg-paper-dark: #f5f0e6;
+  --color-text-primary: #2c2a29;
+  --color-text-secondary: #5e5956;
+  --color-gold: #b39268;
+  --color-gold-light: #c5a880;
+  --color-gold-dark: #8c6a3e;
+  --color-gold-gold: #dfc299;
+  --color-sage: #8f9e8b;
+  --color-rose: #b58d8d;
+  --color-white: #ffffff;
+  --color-overlay: rgba(44, 42, 41, 0.85);
+  
+  /* Fonts */
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Lora', serif;
+  --font-ui: 'Montserrat', sans-serif;
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-med: 0.4s ease;
+  --transition-slow: 0.8s ease;
+  
+  /* Box Shadows */
+  --shadow-sm: 0 2px 8px rgba(140, 106, 62, 0.08);
+  --shadow-md: 0 8px 24px rgba(44, 42, 41, 0.08);
+  --shadow-lg: 0 16px 40px rgba(44, 42, 41, 0.12);
+  --shadow-gold: 0 8px 20px rgba(179, 146, 104, 0.2);
+}
+
+/* -------------------------------------------------------------
+   BASE RESET & UTILITIES
+   ------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Offset for sticky header */
+}
+
+body {
+  background-color: var(--color-bg-paper);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-gold-dark);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-gold-light);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-paper-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border: 2px solid var(--color-bg-paper-dark);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-dark);
+}
+
+/* -------------------------------------------------------------
+   OVERLAYS (VINTAGE PARCHMENT VIGNETTE Only - No Dotted Overlay)
+   ------------------------------------------------------------- */
+.vignette-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent 50%, rgba(44, 42, 41, 0.05) 100%);
+  pointer-events: none;
+  z-index: 998;
+}
+
+.scroll-offset {
+  scroll-margin-top: 100px;
+}
+
+/* -------------------------------------------------------------
+   BUTTONS
+   ------------------------------------------------------------- */
+.btn {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all var(--transition-med);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+  color: var(--color-white);
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+  filter: brightness(1.08);
+  color: var(--color-white);
+}
+
+.btn-outline-gold {
+  background: transparent;
+  color: var(--color-gold-dark);
+  border: 1px solid var(--color-gold);
+}
+
+.btn-outline-gold:hover {
+  background: rgba(179, 146, 104, 0.08);
+  border-color: var(--color-gold-dark);
+  transform: translateY(-2px);
+}
+
+.btn-page {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-gold);
+  background: transparent;
+  color: var(--color-gold-dark);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-page:hover:not(:disabled) {
+  background: var(--color-gold);
+  color: var(--color-white);
+}
+
+.btn-page:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: var(--color-text-secondary);
+  color: var(--color-text-secondary);
+}
+
+/* -------------------------------------------------------------
+   SITE HEADER & NAVIGATION
+   ------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  background-color: rgba(251, 248, 243, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(179, 146, 104, 0.15);
+  z-index: 100;
+  transition: all var(--transition-fast);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-gold-dark);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.desktop-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-gold);
+  transition: width var(--transition-fast);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--color-gold-dark);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+  width: 100%;
+}
+
+.header-tribute-btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.8rem;
+}
+
+/* -------------------------------------------------------------
+   HERO SECTION & CLASSIC IMAGE FRAME
+   ------------------------------------------------------------- */
+.hero-section {
+  padding: 5rem 2rem;
+  position: relative;
+  background-image: radial-gradient(circle at center, rgba(245, 240, 230, 0.6) 0%, transparent 80%);
+  border-bottom: 1px solid rgba(179, 146, 104, 0.1);
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+}
+
+/* Elegant Rectangular Double-Border Frame */
+.hero-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.portrait-frame {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  border: 8px double var(--color-gold);
+  padding: 6px;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  display: block;
+}
+
+.hero-img, .pane-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(8%) sepia(10%) contrast(1.02) brightness(0.98);
+  transition: transform var(--transition-slow);
+}
+
+.portrait-frame:hover .hero-img,
+.portrait-frame:hover .pane-img {
+  transform: scale(1.03);
+}
+
+/* Hero Content */
+.hero-text-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.call-to-glory {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-gold-dark);
+  margin-bottom: 0.8rem;
+  display: inline-block;
+  position: relative;
+}
+
+.call-to-glory::after {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 1px;
+  background-color: var(--color-gold-light);
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.deceased-name {
+  font-size: 3.5rem;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.lifespan-dates {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.separator {
+  margin: 0.5rem 0 1.5rem 0;
+}
+
+.separator-svg {
+  display: block;
+}
+
+.epitaph-quote {
+  font-size: 1.4rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  border-left: 2px solid var(--color-gold);
+  padding-left: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* -------------------------------------------------------------
+   VIRTUAL CANDLE LIGHTING SYSTEM
+   ------------------------------------------------------------- */
+.candle-lighting-container {
+  background-color: var(--color-bg-paper-dark);
+  padding: 1.5rem 2rem;
+  border-radius: 4px;
+  border: 1px solid rgba(179, 146, 104, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.virtual-candle-station {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Animated Candle */
+.candle-holder {
+  position: relative;
+  width: 32px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.candle-body {
+  width: 14px;
+  height: 28px;
+  background: linear-gradient(to right, #ebdcc3, #dfcaa2, #cca77b);
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  position: relative;
+  box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.4), 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.candle-body::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 3px;
+  width: 8px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+.candle-wick {
+  width: 2px;
+  height: 6px;
+  background-color: #333;
+  margin-bottom: 0;
+  z-index: 2;
+}
+
+.candle-flame {
+  position: absolute;
+  top: 4px;
+  width: 10px;
+  height: 16px;
+  background: radial-gradient(circle at center bottom, #ff9d00 0%, #ff5e00 60%, rgba(255, 0, 0, 0) 100%);
+  border-radius: 50% 50% 35% 35%;
+  transform: translateX(-50%);
+  left: 50%;
+  transform-origin: center bottom;
+  opacity: 0;
+  transition: opacity var(--transition-med);
+}
+
+.candle-flame.lit {
+  opacity: 1;
+  animation: flicker 1.8s infinite alternate;
+  box-shadow: 0 0 10px rgba(255, 120, 0, 0.5), 0 0 20px rgba(255, 120, 0, 0.2);
+}
+
+.candle-flame::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background: radial-gradient(circle, #fffdfa 0%, #ffdf91 80%);
+  border-radius: 50%;
+}
+
+@keyframes flicker {
+  0%, 100% { transform: translateX(-50%) scale(1) rotate(-1deg); opacity: 0.95; }
+  20% { transform: translateX(-50%) scale(0.9) rotate(1deg); opacity: 0.9; }
+  40% { transform: translateX(-50%) scale(1.1) rotate(-2deg); opacity: 1; }
+  60% { transform: translateX(-50%) scale(0.95) rotate(2deg); opacity: 0.85; }
+  80% { transform: translateX(-50%) scale(1.05) rotate(0deg); opacity: 0.95; }
+}
+
+.candle-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.candle-count {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-gold-dark);
+  line-height: 1;
+}
+
+.candle-label {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.light-candle-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--color-white);
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------
+   BIOGRAPHY SECTION (TABBED INTERFACE)
+   ------------------------------------------------------------- */
+.bio-section {
+  padding: 6rem 2rem;
+  background-color: var(--white);
+  border-bottom: 1px solid rgba(179, 146, 104, 0.1);
+}
+
+.section-title-wrapper {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  color: var(--color-text-primary);
+  margin-bottom: 0.8rem;
+}
+
+.title-divider {
+  width: 80px;
+  height: 2px;
+  background-color: var(--color-gold);
+  margin: 0 auto;
+  position: relative;
+}
+
+.title-divider::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-gold-dark);
+  border-radius: 50%;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  margin-top: -2.5rem;
+  margin-bottom: 3.5rem;
+}
+
+/* Tab controls */
+.bio-tabs-header {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid rgba(179, 146, 104, 0.15);
+  padding-bottom: 1px;
+}
+
+.tab-btn {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1rem 2rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tab-btn i {
+  font-size: 0.9rem;
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-gold-dark);
+  transition: width var(--transition-med);
+}
+
+.tab-btn:hover {
+  color: var(--color-gold-dark);
+}
+
+.tab-btn.active {
+  color: var(--color-gold-dark);
+  font-weight: 600;
+}
+
+.tab-btn.active::after {
+  width: 100%;
+}
+
+/* Tab Panes */
+.bio-tabs-content {
+  position: relative;
+  min-height: 380px;
+}
+
+.tab-pane {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--transition-med) ease, transform var(--transition-med) ease;
+}
+
+.tab-pane.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pane-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+#tab-family .pane-grid {
+  grid-template-columns: 0.8fr 1.2fr;
+}
+
+.pane-text h3 {
+  font-size: 2rem;
+  color: var(--color-gold-dark);
+  margin-bottom: 1.2rem;
+}
+
+.pane-text p {
+  color: var(--color-text-secondary);
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+}
+
+.pane-image-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Specific scaling for biography image frame */
+.pane-image-wrapper .portrait-frame {
+  max-width: 320px;
+}
+
+/* -------------------------------------------------------------
+   GALLERY SECTION (GRID WITH VINTAGE FRAMES)
+   ------------------------------------------------------------- */
+.gallery-section {
+  padding: 6rem 2rem;
+  background-color: var(--color-bg-paper);
+  border-bottom: 1px solid rgba(179, 146, 104, 0.1);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.gallery-card {
+  background-color: var(--color-white);
+  border: 1px solid rgba(179, 146, 104, 0.15);
+  padding: 0.8rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-med);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-gold);
+}
+
+.gallery-img-container {
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background-color: var(--color-bg-paper-dark);
+}
+
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(15%) sepia(10%);
+  transition: transform var(--transition-slow);
+}
+
+.gallery-card:hover .gallery-img {
+  transform: scale(1.05);
+}
+
+.gallery-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 42, 41, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity var(--transition-med);
+}
+
+.gallery-overlay i {
+  color: var(--color-gold-gold);
+  font-size: 1.8rem;
+}
+
+.gallery-overlay span {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.gallery-card:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-caption {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-style: italic;
+  text-align: center;
+  padding: 0.8rem 0 0 0;
+  color: var(--color-text-secondary);
+  border-top: 1px solid rgba(179, 146, 104, 0.08);
+  margin-top: 0.8rem;
+}
+
+/* -------------------------------------------------------------
+   SCRIPTURAL REMEMBRANCE SECTION
+   ------------------------------------------------------------- */
+.scripture-section {
+  padding: 2rem 2rem;
+  background: linear-gradient(135deg, #f5ede0 0%, #fbf8f3 50%, #f5ede0 100%);
+  border-top: 1px solid rgba(179, 146, 104, 0.15);
+  border-bottom: 1px solid rgba(179, 146, 104, 0.15);
+  text-align: center;
+}
+
+.scripture-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.scripture-ornament {
+  margin-bottom: 0.6rem;
+  display: flex;
+  justify-content: center;
+}
+
+.scripture-label {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-gold-dark);
+  margin-bottom: 0.8rem;
+}
+
+.scripture-verse {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+  margin-bottom: 0.8rem;
+  padding: 0 1rem;
+}
+
+.scripture-ref {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-gold-dark);
+}
+
+/* -------------------------------------------------------------
+   TRIBUTES WALL & SUBMISSION
+   ------------------------------------------------------------- */
+.tributes-section {
+  padding: 6rem 2rem;
+  background-color: #fbf8f3;
+  border-bottom: 1px solid rgba(179, 146, 104, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Watermarks positioned inside each card */
+.tribute-card-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tribute-card-dove {
+  position: absolute;
+  right: -25px;
+  bottom: -25px;
+  width: 170px;
+  height: 170px;
+  opacity: 0.055;
+  transform: rotate(-10deg);
+}
+
+.tribute-card-ethereal {
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  width: 150px;
+  height: 150px;
+  opacity: 0.07;
+}
+
+.tributes-display-container {
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+}
+
+.tributes-loading {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--color-text-secondary);
+}
+
+.tributes-loading .spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(179, 146, 104, 0.2);
+  border-top-color: var(--color-gold-dark);
+  border-radius: 50%;
+  margin: 0 auto 1rem auto;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* -------------------------------------------------------------
+   TRIBUTE CARDS — Forever Missed style
+   ------------------------------------------------------------- */
+.tributes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.tribute-card {
+  background-color: #f5ede0;
+  border-radius: 14px;
+  padding: 1.8rem 2rem 1.4rem;
+  position: relative;
+  box-shadow: 0 2px 12px rgba(100, 70, 30, 0.08);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  overflow: hidden;
+}
+
+.tribute-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 70, 30, 0.13);
+}
+
+/* Tribute Card Header (Top Row) */
+.tribute-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tribute-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.tribute-new-badge {
+  background-color: #b85c38;
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.tribute-relation {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: rgba(179, 146, 104, 0.18);
+  color: var(--color-gold-dark);
+  padding: 0.2rem 0.55rem;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tribute-flower-img {
+  width: 32px;
+  height: 40px;
+  opacity: 0.85;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Tribute Card Middle Row (Author left, stacked Date/Time right) */
+.tribute-body-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.9rem;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tribute-author {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #8B4513;
+  line-height: 1.2;
+}
+
+.tribute-timestamp-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  line-height: 1.3;
+}
+
+.tribute-date-str {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.tribute-time-str {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+  opacity: 0.8;
+}
+
+.tribute-text {
+  font-size: 1rem;
+  color: #4a3728;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* Pagination */
+.tributes-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(179, 146, 104, 0.15);
+}
+
+.tributes-pagination.hidden { display: none; }
+
+.page-indicator {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.tribute-wall-actions {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* -------------------------------------------------------------
+   LIGHTBOX MODAL (IMAGE VIEWER)
+   ------------------------------------------------------------- */
+.lightbox-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(20, 19, 18, 0.95);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.close-lightbox {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: var(--color-bg-paper);
+  font-size: 3rem;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  z-index: 1010;
+}
+
+.close-lightbox:hover {
+  color: var(--color-gold);
+}
+
+.lightbox-content-wrapper {
+  max-width: 80%;
+  max-height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: zoom 0.3s ease;
+}
+
+@keyframes zoom {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#lightbox-img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border: 4px solid var(--color-bg-paper);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-caption {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--color-bg-paper);
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.lightbox-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(44, 42, 41, 0.5);
+  color: var(--color-white);
+  border: none;
+  font-size: 1.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all var(--transition-fast);
+}
+
+.lightbox-nav-btn:hover {
+  background: var(--color-gold);
+  color: var(--color-text-primary);
+}
+
+.prev-btn { left: 30px; }
+.next-btn { right: 30px; }
+
+/* -------------------------------------------------------------
+   TRIBUTE MODAL & FORM
+   ------------------------------------------------------------- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-overlay);
+  backdrop-filter: blur(5px);
+  z-index: 500;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.modal-container {
+  background-color: var(--color-bg-paper);
+  background-image: radial-gradient(rgba(0,0,0,0.01) 1px, transparent 0);
+  background-size: 4px 4px;
+  width: 100%;
+  max-width: 560px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-gold);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  background-color: var(--color-bg-paper-dark);
+  border-bottom: 1px solid rgba(179, 146, 104, 0.2);
+  padding: 1.2rem 1.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-size: 1.8rem;
+  color: var(--color-gold-dark);
+}
+
+.close-modal {
+  font-size: 1.8rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.close-modal:hover {
+  color: var(--color-text-primary);
+}
+
+.modal-body {
+  padding: 1.8rem;
+}
+
+.modal-intro {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.required {
+  color: var(--color-rose);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background-color: var(--color-white);
+  border: 1px solid rgba(179, 146, 104, 0.3);
+  border-radius: 2px;
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-gold-dark);
+  box-shadow: 0 0 0 3px rgba(179, 146, 104, 0.12);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.char-counter {
+  text-align: right;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.3rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* -------------------------------------------------------------
+   AUDIO BUTTON STYLING (FLOATING BOTTOM RIGHT)
+   ------------------------------------------------------------- */
+.audio-control-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 99;
+}
+
+.audio-toggle-btn {
+  background-color: var(--color-bg-paper-dark);
+  border: 1px solid var(--color-gold);
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gold-dark);
+  transition: all var(--transition-med);
+}
+
+.audio-toggle-btn:hover {
+  background-color: var(--color-gold);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.audio-toggle-btn.playing {
+  background-color: var(--color-gold-dark);
+  color: var(--color-white);
+  border-color: var(--color-gold-dark);
+}
+
+.audio-toggle-btn.playing i {
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* -------------------------------------------------------------
+   MOBILE STICKY ACTION NAV BAR
+   ------------------------------------------------------------- */
+.mobile-sticky-nav {
+  display: none; /* Hidden on desktop */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 68px;
+  background-color: rgba(44, 42, 41, 0.98);
+  border-top: 1px solid var(--color-gold-dark);
+  box-shadow: 0 -5px 15px rgba(0,0,0,0.15);
+  z-index: 400;
+}
+
+.mobile-nav-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #c5a880;
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  gap: 0.2rem;
+  height: 100%;
+}
+
+.mobile-nav-item i {
+  font-size: 1.1rem;
+}
+
+.mobile-nav-item:hover, .mobile-nav-item:focus {
+  color: var(--color-white);
+}
+
+/* Central Column Wrapper to isolate grid position from absolute button positioning */
+.mobile-central-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+/* Centralized Button positioned absolute inside wrapper to enable floating offset */
+.mobile-central-btn {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 410;
+  width: auto;
+}
+
+.mobile-central-btn .btn-inner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gold-gold), var(--color-gold-dark));
+  border: 4px solid rgba(44, 42, 41, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+  transition: all var(--transition-med);
+}
+
+.mobile-central-btn:hover .btn-inner {
+  transform: scale(1.05);
+  box-shadow: 0 8px 15px rgba(179, 146, 104, 0.4);
+}
+
+.mobile-central-btn .btn-inner i {
+  color: var(--color-text-primary);
+  font-size: 1.3rem;
+}
+
+.mobile-central-btn .btn-label {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gold-gold);
+  margin-top: 0.3rem;
+}
+
+/* -------------------------------------------------------------
+   FOOTER
+   ------------------------------------------------------------- */
+.site-footer {
+  background-color: #1a1918;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footer-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-gold-gold);
+  margin-bottom: 0.3rem;
+}
+
+.footer-sub {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8c8682;
+  margin-bottom: 2rem;
+}
+
+.footer-social-shares {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.share-text {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8c8682;
+}
+
+.share-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #3d3b39;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #c5a880;
+  transition: all var(--transition-fast);
+}
+
+.share-icon:hover {
+  background-color: var(--color-gold-dark);
+  color: var(--color-white);
+  border-color: var(--color-gold-dark);
+  transform: translateY(-2px);
+}
+
+.footer-divider {
+  width: 50px;
+  height: 1px;
+  background-color: #3d3b39;
+  margin: 0 auto 2rem auto;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  color: #8c8682;
+}
+
+/* -------------------------------------------------------------
+   RESPONSIVE DESIGN Breakpoints
+   ------------------------------------------------------------- */
+
+/* Tablet & Smaller Screens */
+@media (max-width: 992px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .hero-text-content {
+    align-items: center;
+  }
+  
+  .epitaph-quote {
+    border-left: none;
+    border-top: 1px solid var(--color-gold);
+    border-bottom: 1px solid var(--color-gold);
+    padding: 1.5rem 0;
+    max-width: 560px;
+    margin: 0 auto 2rem auto;
+  }
+  
+  .pane-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem;
+  }
+  
+  .pane-image-wrapper {
+    order: -1; /* Place image at the top of the bio pane on tablet/mobile */
+  }
+  
+  .deceased-name {
+    font-size: 3rem;
+  }
+}
+
+/* Mobile Screens < 768px */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 68px; /* Leave space for bottom nav bar */
+  }
+  
+  .desktop-nav {
+    display: none; /* Hide desktop nav options */
+  }
+  
+  .header-tribute-btn {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.72rem;
+    gap: 0.4rem;
+    display: inline-flex; /* Force visible on mobile */
+  }
+  
+  .mobile-sticky-nav {
+    display: block; /* Show mobile sticky nav */
+  }
+  
+  .site-header {
+    padding: 0.5rem 0;
+  }
+  
+  .header-container {
+    padding: 0.8rem 1rem;
+  }
+  
+  .deceased-name {
+    font-size: 2.3rem;
+  }
+  
+  .lifespan-dates {
+    font-size: 1.4rem;
+  }
+  
+  .hero-section {
+    padding: 3rem 1rem;
+  }
+  
+  .bio-section,
+  .gallery-section,
+  .tributes-section {
+    padding: 4rem 1rem;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+  }
+  
+  .tab-btn {
+    padding: 0.8rem 1rem;
+    font-size: 0.75rem;
+  }
+  
+  .candle-lighting-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+  
+  .tribute-card {
+    padding: 1.2rem 1.5rem;
+  }
+  
+  .tribute-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+  
+  .tribute-date {
+    margin-top: 0.2rem;
+  }
+  
+  .lightbox-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .prev-btn { left: 10px; }
+  .next-btn { right: 10px; }
+  
+  .modal-container {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .form-actions button {
+    width: 100%;
+  }
+
+  .audio-control-container {
+    bottom: 85px; /* Position above mobile navigation bar */
+    right: 15px;
+  }
+}

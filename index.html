@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In Loving Memory of Nkechi Stella Rhodes-Vivour (1950 - 2026 &bull; Age 76)</title>
+  <meta name="description"
+    content="A digital tribute and obituary page celebrating the life, grace, and legacy of Nkechi Stella Rhodes-Vivour. Share memories, view photos, and leave your tribute.">
+
+  <!-- SEO & Open Graph Meta Tags -->
+  <meta property="og:title" content="In Loving Memory of Nkechi Stella Rhodes-Vivour">
+  <meta property="og:description"
+    content="A digital tribute and obituary page celebrating the life, grace, and legacy of Nkechi Stella Rhodes-Vivour.">
+  <meta property="og:image" content="assets/hero-portrait.jpg">
+  <meta property="og:type" content="website">
+
+  <!-- Elegant Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Supabase JS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+  <!-- Background Music Player (Autoplays at very low volume) -->
+  <div class="audio-control-container">
+    <button id="audio-toggle-btn" class="audio-toggle-btn" aria-label="Toggle background music">
+      <i class="fas fa-play"></i>
+      <span class="music-text">Play Music</span>
+    </button>
+    <audio id="bg-audio" loop>
+      <source src="assets/amazing-grace.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- Main Grid Background Overlay for Vintage Paper Vignette -->
+  <div class="vignette-overlay"></div>
+
+  <!-- Desktop & Mobile Header Navigation -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="#hero">NSRV</a>
+      </div>
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="#hero" class="nav-link active">Home</a></li>
+          <li><a href="#biography" class="nav-link">Biography</a></li>
+          <li><a href="#tributes" class="nav-link">Tributes</a></li>
+          <li><a href="#gallery" class="nav-link">Gallery</a></li>
+        </ul>
+      </nav>
+      <!-- Accessible on mobile beside the logo -->
+      <button class="btn btn-gold header-tribute-btn" onclick="openTributeModal()">
+        <i class="fas fa-feather-alt"></i> Leave a Tribute
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero-section">
+    <div class="section-container hero-container">
+
+      <!-- Rectangular Image Frame (No SVG Arch / No Dotted Overlay) -->
+      <div class="hero-image-wrapper">
+        <div class="portrait-frame">
+          <img src="assets/hero-portrait.jpg" alt="Nkechi Stella Rhodes-Vivour" class="hero-img">
+        </div>
+      </div>
+
+      <!-- Hero Biography Text -->
+      <div class="hero-text-content">
+        <span class="call-to-glory">Call to Glory</span>
+        <h1 class="deceased-name">Nkechi Stella Rhodes-Vivour</h1>
+        <p class="lifespan-dates">1950 &mdash; 2026 &bull; Age 76</p>
+
+        <div class="separator">
+          <svg height="24" width="100" viewBox="0 0 100 24" class="separator-svg">
+            <line x1="0" y1="12" x2="40" y2="12" stroke="#c5a880" stroke-width="1" />
+            <polygon points="50,6 56,12 50,18 44,12" fill="#b39268" />
+            <line x1="60" y1="12" x2="100" y2="12" stroke="#c5a880" stroke-width="1" />
+          </svg>
+        </div>
+
+        <blockquote class="epitaph-quote">
+          &ldquo;A devoted matriarch, a gentle spirit, and the epitome of love.&rdquo;
+        </blockquote>
+
+        <!-- Interactive Virtual Candle Lit Component -->
+        <div class="candle-lighting-container">
+          <div class="virtual-candle-station">
+            <div class="candle-holder">
+              <div class="candle-body"></div>
+              <div class="candle-wick"></div>
+              <div id="candle-flame" class="candle-flame"></div>
+            </div>
+            <div class="candle-stats">
+              <span id="candle-count" class="candle-count">128</span>
+              <span class="candle-label">Candles lit in her memory</span>
+            </div>
+          </div>
+          <button id="light-candle-btn" class="btn btn-outline-gold light-candle-btn">
+            <i class="fas fa-fire"></i> Light a Candle
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Biography Section -->
+  <section id="biography" class="bio-section scroll-offset">
+    <div class="section-container">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">Her Life & Journey</h2>
+        <div class="title-divider"></div>
+      </div>
+
+      <div class="bio-tabs-container">
+        <!-- Tabs Buttons -->
+        <div class="bio-tabs-header">
+          <button class="tab-btn active" data-tab="tab-early-life">
+            <i class="fas fa-child"></i> Early Life
+          </button>
+          <button class="tab-btn" data-tab="tab-family">
+            <i class="fas fa-ring"></i> Family & Marriage
+          </button>
+          <button class="tab-btn" data-tab="tab-legacy">
+            <i class="fas fa-award"></i> Legacy & Faith
+          </button>
+        </div>
+
+        <!-- Tabs Content -->
+        <div class="bio-tabs-content">
+          <!-- Tab 1: Early Life -->
+          <div id="tab-early-life" class="tab-pane active">
+            <div class="pane-grid">
+              <div class="pane-text">
+                <h3>Early Life & Background</h3>
+                <p>Nkechi Stella Rhodes-Vivour was born into the respected Waboso family in Nigeria. She grew up in a
+                  family that deeply valued strong moral principles, respect, and service to others. Her upbringing
+                  helped shape the compassionate and caring personality for which she later became known among
+                  relatives, friends, and members of the wider community.</p>
+                <p>She spent most of her early years away from public attention and maintained a private lifestyle
+                  throughout her life. Very little information has been released about her childhood, siblings, or early
+                  experiences. Despite the limited public record, those close to her have described her as a woman of
+                  dignity, humility, and quiet strength. These qualities remained evident throughout her life as she
+                  devoted herself to her family and personal responsibilities.</p>
+              </div>
+              <div class="pane-image-wrapper">
+                <div class="portrait-frame">
+                  <img src="assets/gallery-4.jpg" alt="Vintage portrait of Stella Rhodes-Vivour" class="pane-img">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Family & Marriage -->
+          <div id="tab-family" class="tab-pane">
+            <div class="pane-grid">
+              <div class="pane-image-wrapper">
+                <div class="portrait-frame">
+                  <img src="assets/gallery-3.jpg" alt="Stella Rhodes-Vivour with family" class="pane-img">
+                </div>
+              </div>
+              <div class="pane-text">
+                <h3>A Dedicated Wife & Matriarch</h3>
+                <p>Nkechi Stella Rhodes-Vivour was married to Olawale Rhodes-Vivour, a distinguished architect and
+                  former Commissioner for Housing in Lagos State. Their marriage was built on love, mutual respect, and
+                  a shared commitment to family values. Together, they raised their children in an environment that
+                  emphasized education, integrity, compassion, and service to society.</p>
+                <p>She was the devoted mother of Gbadebo Rhodes-Vivour, an architect, entrepreneur, and Nigerian
+                  politician who gained national recognition as the Labour Party candidate in the 2023 Lagos State
+                  governorship election. Throughout her son’s political journey, Nkechi Stella Rhodes-Vivour remained
+                  one of his strongest supporters, standing by him during campaigns and encouraging him to pursue public
+                  service with courage.</p>
+                <p>Beyond her immediate family, she was a cherished grandmother and a respected member of both the
+                  Rhodes-Vivour and Waboso families. Friends and relatives remembered her as a woman who welcomed
+                  everyone with kindness, offered wise counsel, and placed the well-being of her loved ones above all
+                  else.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: Legacy & Faith -->
+          <div id="tab-legacy" class="tab-pane">
+            <div class="pane-grid">
+              <div class="pane-text">
+                <h3>Faith, Values & Lasting Legacy</h3>
+                <p>A devout Christian, Nkechi Stella Rhodes-Vivour demonstrated values commonly associated with her
+                  faith, including kindness, humility, compassion, forgiveness, and service to others. Her date of birth
+                  was kept private, as she preferred to live away from the public spotlight, but she was widely
+                  recognized as the matriarch of the Rhodes-Vivour family and was admired for her wisdom and grace.</p>
+                <p>Her family announced her "call to glory" on July 13, 2026, via a statement signed by Olawale
+                  Rhodes-Vivour. She was remembered by her loved ones and political figures as a devoted matriarch, a
+                  gentle spirit, and the "epitome of love."</p>
+                <p>Her legacy lives on through her children, grandchildren, and the values she passed from one
+                  generation to the next. Her impact is visible in the achievements of her family, whose public service
+                  and careers in architecture and politics reflect the principles of integrity and perseverance she
+                  encouraged.</p>
+              </div>
+              <div class="pane-image-wrapper">
+                <div class="portrait-frame">
+                  <!-- The main picture used discreetly in another presentation -->
+                  <img src="assets/hero-portrait.jpg" alt="Dignified Stella Rhodes-Vivour" class="pane-img">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- Scriptural Remembrance Section -->
+  <section class="scripture-section scroll-offset">
+    <div class="scripture-inner">
+      <div class="scripture-ornament">
+        <svg width="60" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="15" x2="48" y2="15" stroke="#c5a880" stroke-width="1" />
+          <path d="M54 5 L60 15 L66 5 L60 0 Z" fill="#b39268" />
+          <path d="M54 25 L60 15 L66 25 L60 30 Z" fill="#b39268" />
+          <line x1="72" y1="15" x2="120" y2="15" stroke="#c5a880" stroke-width="1" />
+        </svg>
+      </div>
+      <p class="scripture-label">Scriptural Remembrance</p>
+      <blockquote class="scripture-verse">
+        &ldquo;Her children arise up, and call her blessed; her husband also, and he praiseth her.&rdquo;
+      </blockquote>
+      <p class="scripture-ref">PROVERBS 31:28</p>
+    </div>
+  </section>
+
+  <!-- Tributes Section -->
+  <section id="tributes" class="tributes-section scroll-offset">
+    <div class="section-container">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">Condolences & Tributes</h2>
+        <div class="title-divider"></div>
+      </div>
+      <p class="section-subtitle">Leave your words of comfort, memory, and respect for the family.</p>
+
+      <div class="tributes-display-container">
+
+        <!-- Loading Spinner -->
+        <div id="tributes-loading" class="tributes-loading">
+          <div class="spinner"></div>
+          <p>Loading tributes from friends & family...</p>
+        </div>
+
+        <!-- Tributes List -->
+        <div id="tributes-list" class="tributes-list">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="tributes-pagination" class="tributes-pagination hidden">
+          <button id="prev-page-btn" class="btn btn-page" disabled>
+            <i class="fas fa-chevron-left"></i> Previous
+          </button>
+          <span id="page-indicator" class="page-indicator">Page 1 of 1</span>
+          <button id="next-page-btn" class="btn btn-page">
+            Next <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Button for Tributes Wall (Desktop) -->
+      <div class="tribute-wall-actions">
+        <button class="btn btn-gold" onclick="openTributeModal()">
+          <i class="fas fa-feather-alt"></i> Leave a Tribute
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="gallery-section scroll-offset">
+    <div class="section-container">
+      <div class="section-title-wrapper">
+        <h2 class="section-title">Photo Gallery</h2>
+        <div class="title-divider"></div>
+      </div>
+      <p class="section-subtitle">Moments from a beautiful life, shared by family and friends.</p>
+
+      <div class="gallery-grid">
+        <!-- Gallery Item 1 -->
+        <div class="gallery-card" onclick="openLightbox(0)">
+          <div class="gallery-img-container">
+            <img src="assets/hero-portrait.jpg" alt="Matriarch Portrait" class="gallery-img">
+            <div class="gallery-overlay">
+              <i class="fas fa-search-plus"></i>
+              <span>View Portrait</span>
+            </div>
+          </div>
+          <div class="gallery-caption">Main Portrait</div>
+        </div>
+
+        <!-- Gallery Item 2 -->
+        <div class="gallery-card" onclick="openLightbox(1)">
+          <div class="gallery-img-container">
+            <img src="assets/gallery-1.png" alt="A beautiful remembrance setting" class="gallery-img">
+            <div class="gallery-overlay">
+              <i class="fas fa-search-plus"></i>
+              <span>View Image</span>
+            </div>
+          </div>
+          <div class="gallery-caption">Tribute Presentation</div>
+        </div>
+
+        <!-- Gallery Item 3 -->
+        <div class="gallery-card" onclick="openLightbox(2)">
+          <div class="gallery-img-container">
+            <img src="assets/gallery-2.png" alt="Family memorial tribute" class="gallery-img">
+            <div class="gallery-overlay">
+              <i class="fas fa-search-plus"></i>
+              <span>View Image</span>
+            </div>
+          </div>
+          <div class="gallery-caption">Nostalgic Remembrance</div>
+        </div>
+
+        <!-- Gallery Item 4 -->
+        <div class="gallery-card" onclick="openLightbox(3)">
+          <div class="gallery-img-container">
+            <img src="assets/gallery-3.jpg" alt="Stella Rhodes-Vivour smiling portrait" class="gallery-img">
+            <div class="gallery-overlay">
+              <i class="fas fa-search-plus"></i>
+              <span>View Image</span>
+            </div>
+          </div>
+          <div class="gallery-caption">Moments of Joy</div>
+        </div>
+
+        <!-- Gallery Item 5 -->
+        <div class="gallery-card" onclick="openLightbox(4)">
+          <div class="gallery-img-container">
+            <img src="assets/gallery-4.jpg" alt="Dignified pose" class="gallery-img">
+            <div class="gallery-overlay">
+              <i class="fas fa-search-plus"></i>
+              <span>View Image</span>
+            </div>
+          </div>
+          <div class="gallery-caption">Grace & Humility</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Lightbox Modal -->
+  <div id="lightbox-modal" class="lightbox-modal">
+    <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+    <button class="lightbox-nav-btn prev-btn" onclick="changeLightboxImage(-1)" aria-label="Previous image">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <div class="lightbox-content-wrapper">
+      <img id="lightbox-img" src="" alt="Enlarged gallery image">
+      <div id="lightbox-caption" class="lightbox-caption">Caption text</div>
+    </div>
+    <button class="lightbox-nav-btn next-btn" onclick="changeLightboxImage(1)" aria-label="Next image">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Leave a Tribute Modal Form -->
+  <div id="tribute-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>Write a Tribute</h2>
+        <span class="close-modal" onclick="closeTributeModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">Share a cherished memory, a comforting message, or express your respect.</p>
+
+        <form id="tribute-form">
+          <div class="form-group">
+            <label for="writer-name">Your Full Name <span class="required">*</span></label>
+            <input type="text" id="writer-name" name="name" required placeholder="e.g., Jane Waboso" max="100">
+          </div>
+
+          <div class="form-group">
+            <label for="writer-relationship">Relationship to the Deceased <span class="required">*</span></label>
+            <select id="writer-relationship" name="relationship" required>
+              <option value="" disabled selected>Select relationship...</option>
+              <option value="Family">Family Member</option>
+              <option value="Friend">Friend</option>
+              <option value="Colleague">Colleague / Associate</option>
+              <option value="Well-wisher">Well-wisher</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="writer-contact">Your Email or Phone Number (Optional &mdash; kept private)</label>
+            <input type="text" id="writer-contact" name="contact" placeholder="+234...">
+          </div>
+
+          <div class="form-group">
+            <label for="writer-comment">Your Tribute Message <span class="required">*</span></label>
+            <textarea id="writer-comment" name="comment" rows="5" required
+              placeholder="Write your words of tribute here..." maxlength="1000"></textarea>
+            <div class="char-counter"><span id="char-count">0</span> / 1000 characters</div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-outline-gold" onclick="closeTributeModal()">Cancel</button>
+            <button type="submit" id="submit-tribute-btn" class="btn btn-gold">
+              <i class="fas fa-paper-plane"></i> Publish Tribute
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Bottom Navigation Bar for Mobile Screens -->
+  <nav class="mobile-sticky-nav">
+    <div class="mobile-nav-container">
+      <a href="#biography" class="mobile-nav-item">
+        <i class="fas fa-book-open"></i>
+        <span>Biography</span>
+      </a>
+
+      <!-- Centralized wrapper to reserve Column 2 in the 3-column grid -->
+      <div class="mobile-central-btn-wrapper">
+        <button class="mobile-central-btn" onclick="openTributeModal()" aria-label="Leave a tribute">
+          <div class="btn-inner">
+            <i class="fas fa-feather-alt"></i>
+          </div>
+          <span class="btn-label">Tribute</span>
+        </button>
+      </div>
+
+      <a href="#gallery" class="mobile-nav-item">
+        <i class="fas fa-images"></i>
+        <span>Gallery</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="section-container footer-container">
+      <p class="footer-title">In Loving Memory of Nkechi Stella Rhodes-Vivour</p>
+      <p class="footer-sub">Born into the Waboso Family &bull; Called to Glory July 13, 2026</p>
+
+      <div class="footer-social-shares">
+        <span class="share-text">Share Page:</span>
+        <a href="#" id="share-wa" class="share-icon" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" id="share-fb" class="share-icon" aria-label="Share on Facebook"><i
+            class="fab fa-facebook-f"></i></a>
+      </div>
+
+      <div class="footer-divider"></div>
+      <p class="copyright">&copy; 2026 Rhodes-Vivour & Waboso Families.</p>
+    </div>
+  </footer>
+
+  <!-- Script File -->
+  <script src="script.js"></script>
+</body>
+
+</html>

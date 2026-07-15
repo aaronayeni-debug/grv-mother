@@ -1,0 +1,14 @@
+# Ignore raw source files and reference folders
+AMAZING GRACE (Lyrics) - SUSAN BOYLE [A0gLntLIBYw].mp3
+FireShot/
+GRV - MOTHER/
+*.png
+*.jpeg
+*.jpg
+*.docx
+# Do not ignore assets directory
+!assets/
+!assets/*.jpg
+!assets/*.png
+!assets/*.mp3
+!assets/*.svg
