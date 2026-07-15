@@ -143,19 +143,21 @@ function renderTributes() {
       <div class="tribute-card-header">
         <div class="tribute-header-left">
           ${badge}
-          <span class="tribute-relation">${escapeHTML(tribute.relationship)}</span>
         </div>
         <img class="tribute-flower-img" src="assets/flower.svg" alt="Flower accent" aria-hidden="true">
       </div>
-      
+
       <div class="tribute-body-meta">
-        <h4 class="tribute-author">${escapeHTML(tribute.name)}</h4>
+        <div class="tribute-author-block">
+          <h4 class="tribute-author">${escapeHTML(tribute.name)}</h4>
+          <span class="tribute-relation">${escapeHTML(tribute.relationship)}</span>
+        </div>
         <div class="tribute-timestamp-block">
           <span class="tribute-date-str">${dateStr}</span>
           <span class="tribute-time-str">${timeStr}</span>
         </div>
       </div>
-      
+
       <p class="tribute-text">${escapeHTML(tribute.comment)}</p>
     `;
 

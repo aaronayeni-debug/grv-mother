@@ -951,11 +951,17 @@ h1, h2, h3, h4 {
 .tribute-body-meta {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 0.9rem;
   gap: 1rem;
   position: relative;
   z-index: 1;
+}
+
+.tribute-author-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .tribute-author {
