@@ -1,17 +1,22 @@
 /* -------------------------------------------------------------
-   SUPABASE CONFIGURATION
+   SUPABASE CONFIGURATION (commented out — replaced by Xano)
    ------------------------------------------------------------- */
-const SUPABASE_URL = 'https://wetkmmfvmabfqseiiysk.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndldGttbWZ2bWFiZnFzZWlpeXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODIxMzYsImV4cCI6MjA5MTc1ODEzNn0.zE0oqqVSu8Pztc7yzugnBsX_OAB8uS5GY7k5fSd5gKM';
+// const SUPABASE_URL = 'https://wetkmmfvmabfqseiiysk.supabase.co';
+// const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndldGttbWZ2bWFiZnFzZWlpeXNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODIxMzYsImV4cCI6MjA5MTc1ODEzNn0.zE0oqqVSu8Pztc7yzugnBsX_OAB8uS5GY7k5fSd5gKM';
+// let supabaseClient = null;
+// if (window.supabase) {
+//   try {
+//     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+//   } catch (err) {
+//     console.error('Failed to initialize Supabase client:', err);
+//   }
+// }
 
-let supabaseClient = null;
-if (window.supabase) {
-  try {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  } catch (err) {
-    console.error('Failed to initialize Supabase client:', err);
-  }
-}
+/* -------------------------------------------------------------
+   XANO CONFIGURATION
+   ------------------------------------------------------------- */
+const XANO_GET_URL  = 'https://x8ki-letl-twmt.n7.xano.io/api:eL8dfiNx/grvmom1';
+const XANO_POST_URL = 'https://x8ki-letl-twmt.n7.xano.io/api:eL8dfiNx/grvmom';
 
 /* -------------------------------------------------------------
    STATE
@@ -66,29 +71,36 @@ document.addEventListener('DOMContentLoaded', () => {
    TRIBUTES — LOAD & RENDER
    ------------------------------------------------------------- */
 async function loadTributes() {
-  const loadingEl  = document.getElementById('tributes-loading');
-  const listEl     = document.getElementById('tributes-list');
-  const paginEl    = document.getElementById('tributes-pagination');
+  const loadingEl = document.getElementById('tributes-loading');
+  const listEl    = document.getElementById('tributes-list');
+  const paginEl   = document.getElementById('tributes-pagination');
 
   loadingEl.style.display = 'block';
   listEl.innerHTML = '';
   paginEl.classList.add('hidden');
 
-  if (supabaseClient) {
-    try {
-      const { data, error } = await supabaseClient
-        .from('tributes')
-        .select('*')
-        .order('created_at', { ascending: false });
-      if (error) throw error;
-      allTributes = data || [];
-    } catch (err) {
-      console.error('Supabase fetch failed:', err);
-      allTributes = [];
-    }
-  } else {
+  // ── Xano GET ──
+  try {
+    const res  = await fetch(XANO_GET_URL);
+    const data = await res.json();
+    // Sort newest first (created_at is ms timestamp from Xano)
+    allTributes = Array.isArray(data)
+      ? data.sort((a, b) => b.created_at - a.created_at)
+      : [];
+  } catch (err) {
+    console.error('Xano fetch failed:', err);
     allTributes = [];
   }
+
+  // ── Supabase GET (commented out) ──
+  // if (supabaseClient) {
+  //   try {
+  //     const { data, error } = await supabaseClient
+  //       .from('tributes').select('*').order('created_at', { ascending: false });
+  //     if (error) throw error;
+  //     allTributes = data || [];
+  //   } catch (err) { allTributes = []; }
+  // }
 
   loadingEl.style.display = 'none';
   renderTributes();
@@ -150,7 +162,7 @@ function renderTributes() {
       <div class="tribute-body-meta">
         <div class="tribute-author-block">
           <h4 class="tribute-author">${escapeHTML(tribute.name)}</h4>
-          <span class="tribute-relation">${escapeHTML(tribute.relationship)}</span>
+          <span class="tribute-relation">${escapeHTML(tribute.relation)}</span>
         </div>
         <div class="tribute-timestamp-block">
           <span class="tribute-date-str">${dateStr}</span>
@@ -158,7 +170,7 @@ function renderTributes() {
         </div>
       </div>
 
-      <p class="tribute-text">${escapeHTML(tribute.comment)}</p>
+      <p class="tribute-text">${escapeHTML(tribute.tribute)}</p>
     `;
 
     listEl.appendChild(card);
@@ -181,32 +193,31 @@ function updatePaginationControls() {
 }
 
 /* -------------------------------------------------------------
-   VIRTUAL CANDLE — always lit, Supabase-tracked count
+   VIRTUAL CANDLE — localStorage-tracked count
+   (Supabase persistence commented out)
    ------------------------------------------------------------- */
 async function initVirtualCandle() {
-  const countSpan    = document.getElementById('candle-count');
-  const btn          = document.getElementById('light-candle-btn');
-  const flame        = document.getElementById('candle-flame');
+  const countSpan = document.getElementById('candle-count');
+  const btn       = document.getElementById('light-candle-btn');
+  const flame     = document.getElementById('candle-flame');
 
-  // Flame is always on — it's a memorial
   flame.classList.add('lit');
 
-  // Load real count from Supabase
-  let totalCount = 128; // sensible fallback
-  if (supabaseClient) {
-    try {
-      const { count, error } = await supabaseClient
-        .from('candles')
-        .select('*', { count: 'exact', head: true });
-      if (!error && count !== null) totalCount = 128 + count; // offset by base
-    } catch (_) {}
-  }
+  // Base count + any locally incremented candles
+  let totalCount = 128 + parseInt(localStorage.getItem('candle_offset') || '0', 10);
+
+  // ── Supabase candle count (commented out) ──
+  // if (supabaseClient) {
+  //   try {
+  //     const { count, error } = await supabaseClient
+  //       .from('candles').select('*', { count: 'exact', head: true });
+  //     if (!error && count !== null) totalCount = 128 + count;
+  //   } catch (_) {}
+  // }
+
   countSpan.innerText = totalCount;
 
-  // Has this session already lit a candle?
-  const sessionId  = getSessionId();
   const alreadyLit = localStorage.getItem('user_lit_candle') === 'true';
-
   if (alreadyLit) {
     btn.innerHTML = '<i class="fas fa-check"></i> Candle Lit';
     btn.classList.replace('btn-outline-gold', 'btn-gold');
@@ -217,25 +228,22 @@ async function initVirtualCandle() {
     if (alreadyLit || btn.disabled) return;
     btn.disabled = true;
 
-    // Optimistic UI update
     totalCount += 1;
     countSpan.innerText = totalCount;
     flame.classList.add('lit');
     btn.innerHTML = '<i class="fas fa-check"></i> Candle Lit';
     btn.classList.replace('btn-outline-gold', 'btn-gold');
     localStorage.setItem('user_lit_candle', 'true');
+    localStorage.setItem('candle_offset', String(parseInt(localStorage.getItem('candle_offset') || '0', 10) + 1));
     createSparkEffect(btn);
 
-    // Persist to Supabase
-    if (supabaseClient) {
-      try {
-        await supabaseClient.from('candles').insert([{ session_id: sessionId }]);
-      } catch (err) {
-        console.error('Could not save candle to Supabase:', err);
-      }
-    }
+    // ── Supabase candle insert (commented out) ──
+    // if (supabaseClient) {
+    //   try {
+    //     await supabaseClient.from('candles').insert([{ session_id: getSessionId() }]);
+    //   } catch (err) { console.error('Could not save candle:', err); }
+    // }
 
-    // Soft live simulation (every 12s, 15% chance)
     setInterval(() => {
       if (Math.random() > 0.85) {
         totalCount += 1;
@@ -374,23 +382,33 @@ function initFormSubmit() {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing...';
 
+    // ── Xano field names: name, relation, tribute ──
     const payload = {
-      name:         document.getElementById('writer-name').value.trim(),
-      relationship: document.getElementById('writer-relationship').value,
-      contact:      null,
-      comment:      document.getElementById('writer-comment').value.trim(),
-      created_at:   new Date().toISOString()
+      name:    document.getElementById('writer-name').value.trim(),
+      relation: document.getElementById('writer-relationship').value.trim(),
+      tribute: document.getElementById('writer-comment').value.trim()
     };
 
+    // ── Supabase POST (commented out) ──
+    // const supaPayload = {
+    //   name: payload.name, relationship: payload.relation,
+    //   comment: payload.tribute, created_at: new Date().toISOString()
+    // };
+    // if (supabaseClient) {
+    //   const { error } = await supabaseClient.from('tributes').insert([supaPayload]);
+    // }
+
     let success = false;
-    if (supabaseClient) {
-      try {
-        const { error } = await supabaseClient.from('tributes').insert([payload]);
-        if (error) throw error;
-        success = true;
-      } catch (err) {
-        console.error('Submit failed:', err);
-      }
+    try {
+      const res = await fetch(XANO_POST_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`Xano error ${res.status}`);
+      success = true;
+    } catch (err) {
+      console.error('Xano submit failed:', err);
     }
 
     if (success) {
