@@ -341,12 +341,13 @@ h1, h2, h3, h4 {
 }
 
 .deceased-name {
-  font-size: 3.1rem;
+  font-size: 3rem;
   line-height: 1.1;
   color: var(--color-text-primary);
   margin-bottom: 0.5rem;
   white-space: nowrap;
   overflow: auto;
+  padding:3px;
 }
 
 .lifespan-dates {
@@ -850,7 +851,7 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 5px; /* 5px gap from top */
+  object-position: center 10px; /* 5px gap from top */
   transform: scale(1.08);
   transform-origin: top center; /* scale expands downward, top stays pinned */
   transition: transform var(--transition-slow);
@@ -1727,6 +1728,7 @@ h1, h2, h3, h4 {
   
   .deceased-name {
     font-size: 3rem;
+    padding:2px;
   }
 }
 
@@ -1761,6 +1763,7 @@ h1, h2, h3, h4 {
   
   .deceased-name {
     font-size: 2.3rem;
+    padding:2px;
   }
   
   .lifespan-dates {
