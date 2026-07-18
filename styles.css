@@ -664,6 +664,97 @@ h1, h2, h3, h4 {
   max-width: 320px;
 }
 
+/* ── Bio Slider (crossfade between 2 images) ── */
+.bio-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.bio-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 5px; /* 5px distance from top to prevent cut-off faces */
+  opacity: 0;
+  transform: scale(1.08); /* starts slightly zoomed in */
+  transition: opacity 1.2s ease-in-out, transform 5s linear; /* smooth Ken Burns transition */
+}
+
+.bio-slide.active {
+  opacity: 1;
+  transform: scale(1); /* slowly zooms out during active crossfade */
+  position: relative;
+}
+
+/* ── Category-specific bio frame borders ── */
+.portrait-frame.frame-earlylife {
+  border-color: #8b7355;
+  box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.15), var(--shadow-lg);
+}
+
+.portrait-frame.frame-family {
+  border: 8px double #b08050;
+  box-shadow: 0 0 0 3px rgba(176, 128, 80, 0.15), inset 0 0 0 2px rgba(176, 128, 80, 0.1), var(--shadow-lg);
+}
+
+.portrait-frame.frame-legacy {
+  border: 6px solid #c5a880;
+  outline: 2px solid rgba(197, 168, 128, 0.3);
+  outline-offset: 4px;
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── Gallery card category frames ── */
+.gallery-card.frame-mother {
+  border: 2px solid rgba(197, 168, 128, 0.5);
+  box-shadow: 0 2px 10px rgba(197, 168, 128, 0.2);
+}
+
+.gallery-card.frame-family {
+  border: 2px solid rgba(160, 120, 80, 0.4);
+  box-shadow: 0 2px 10px rgba(160, 120, 80, 0.15);
+}
+
+.gallery-card.frame-career {
+  border: 2px solid rgba(100, 120, 140, 0.4);
+  box-shadow: 0 2px 10px rgba(100, 120, 140, 0.15);
+}
+
+.gallery-card.frame-youth {
+  border: 2px solid rgba(140, 160, 120, 0.4);
+  box-shadow: 0 2px 10px rgba(140, 160, 120, 0.15);
+}
+
+.gallery-card.frame-wedding {
+  border: 2px solid rgba(200, 160, 160, 0.45);
+  box-shadow: 0 2px 10px rgba(200, 160, 160, 0.2);
+}
+
+.gallery-card.frame-university {
+  border: 2px solid rgba(120, 140, 180, 0.4);
+  box-shadow: 0 2px 10px rgba(120, 140, 180, 0.15);
+}
+
+.gallery-card.frame-sec_school {
+  border: 2px solid rgba(150, 130, 100, 0.4);
+  box-shadow: 0 2px 10px rgba(150, 130, 100, 0.15);
+}
+
+/* ── Gallery flower badge ── */
+.gallery-flower-badge {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  opacity: 0.35;
+  filter: sepia(1) saturate(0.6) brightness(1.6);
+  vertical-align: middle;
+  margin-right: 6px;
+  display: inline-block;
+}
+
 /* -------------------------------------------------------------
    GALLERY SECTION (GRID WITH VINTAGE FRAMES)
    ------------------------------------------------------------- */
@@ -745,8 +836,14 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 5px;
+  object-position: center 5px; /* 5px distance from top */
+  transform: scale(1.08); /* slight default zoom in */
   transition: transform var(--transition-slow);
+}
+
+.gallery-card.frame-family .gallery-img,
+.gallery-card.frame-wedding .gallery-img {
+  object-position: center center; /* center group photos vertically */
 }
 
 /* Gallery Pagination */
@@ -764,20 +861,22 @@ h1, h2, h3, h4 {
 }
 
 .gallery-card:hover .gallery-img {
-  transform: scale(1.05);
+  transform: scale(1); /* zooms out on hover to show more width/detail */
 }
 
 /* Faint ID badge — bottom-right corner of image */
 .gallery-id-badge {
   position: absolute;
-  bottom: 7px;
-  right: 9px;
+  bottom: 8px;
+  right: 10px;
+  display: flex;
+  align-items: center;
   font-family: var(--font-ui);
-  font-size: 0.6rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.38);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  color: rgba(255, 255, 255, 0.45);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
   pointer-events: none;
   user-select: none;
   z-index: 2;
@@ -1647,6 +1746,26 @@ h1, h2, h3, h4 {
   .tab-btn {
     padding: 0.8rem 1rem;
     font-size: 0.75rem;
+  }
+
+  /* Mobile Category Filter Grid (2 columns, 4 rows) */
+  .gallery-filters {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .filter-btn {
+    width: 100%;
+    text-align: center;
+    font-size: 0.72rem;
+    padding: 0.6rem 0.4rem;
+    border-radius: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .candle-lighting-container {

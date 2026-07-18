@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollSpy();
   initShareLinks();
   initGallery();
+  initBioSliders();
 
   document.addEventListener('keydown', (e) => {
     const lightbox = document.getElementById('lightbox-modal');
@@ -506,7 +507,7 @@ async function initGallery() {
 
     itemsToRender.forEach((item, idx) => {
       const card = document.createElement('div');
-      card.className = 'gallery-card';
+      card.className = `gallery-card frame-${item.category}`;
       const absoluteIndex = (activeFilter === 'all') ? start + idx : idx;
       card.setAttribute('onclick', `openLightbox(${absoluteIndex})`);
       card.innerHTML = `
@@ -516,7 +517,9 @@ async function initGallery() {
             <i class="fas fa-search-plus"></i>
             <span>View Image</span>
           </div>
-          <span class="gallery-id-badge">#${item.id}</span>
+          <span class="gallery-id-badge">
+            <img src="assets/Flower 2.svg" class="gallery-flower-badge" aria-hidden="true">#${item.id}
+          </span>
         </div>
         <div class="gallery-caption">${escapeHTML(item.caption)}</div>
       `;
@@ -581,6 +584,24 @@ async function initGallery() {
   });
 
   renderGrid();
+}
+
+/* -------------------------------------------------------------
+   BIO SLIDERS — auto-crossfade every 4s per tab
+   ------------------------------------------------------------- */
+function initBioSliders() {
+  ['slider-early', 'slider-family', 'slider-legacy'].forEach(id => {
+    const slider = document.getElementById(id);
+    if (!slider) return;
+    const slides = slider.querySelectorAll('.bio-slide');
+    if (slides.length < 2) return;
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
+  });
 }
 
 window.openTributeModal   = openTributeModal;
