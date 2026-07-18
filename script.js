@@ -18,6 +18,17 @@
 const XANO_GET_URL  = 'https://x8ki-letl-twmt.n7.xano.io/api:eL8dfiNx/grvmom1';
 const XANO_POST_URL = 'https://x8ki-letl-twmt.n7.xano.io/api:eL8dfiNx/grvmom';
 
+/* ── Environment and Cloudinary helpers ── */
+const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+
+function formatCloudinaryUrl(url) {
+  if (!url || typeof url !== 'string') return url;
+  if (url.includes('cloudinary.com') && url.includes('/upload/') && !url.includes('/a_auto/')) {
+    return url.replace('/upload/', '/upload/a_auto/');
+  }
+  return url;
+}
+
 /* -------------------------------------------------------------
    STATE
    ------------------------------------------------------------- */
@@ -55,6 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initShareLinks();
   initGallery();
   initBioSliders();
+
+  // Auto-rotate static HTML images (like Biography slider)
+  document.querySelectorAll('img').forEach(img => {
+    const src = img.getAttribute('src');
+    if (src) {
+      img.setAttribute('src', formatCloudinaryUrl(src));
+    }
+  });
 
   document.addEventListener('keydown', (e) => {
     const lightbox = document.getElementById('lightbox-modal');
@@ -441,7 +460,7 @@ function openLightbox(index) {
   currentLightboxIndex = index;
   const img     = document.getElementById('lightbox-img');
   const caption = document.getElementById('lightbox-caption');
-  img.src           = activeGalleryData[index].src;
+  img.src           = formatCloudinaryUrl(activeGalleryData[index].src);
   caption.innerHTML = activeGalleryData[index].caption;
   document.getElementById('lightbox-modal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -455,7 +474,7 @@ function closeLightbox() {
 function changeLightboxImage(dir) {
   if (activeGalleryData.length === 0) return;
   currentLightboxIndex = (currentLightboxIndex + dir + activeGalleryData.length) % activeGalleryData.length;
-  document.getElementById('lightbox-img').src                   = activeGalleryData[currentLightboxIndex].src;
+  document.getElementById('lightbox-img').src                   = formatCloudinaryUrl(activeGalleryData[currentLightboxIndex].src);
   document.getElementById('lightbox-caption').innerHTML = activeGalleryData[currentLightboxIndex].caption;
 }
 
@@ -510,16 +529,18 @@ async function initGallery() {
       card.className = `gallery-card frame-${item.category}`;
       const absoluteIndex = (activeFilter === 'all') ? start + idx : idx;
       card.setAttribute('onclick', `openLightbox(${absoluteIndex})`);
+      const formattedSrc = formatCloudinaryUrl(item.src);
+      const idTextHtml = isDev ? `<span class="gallery-id-text">#${item.id}</span>` : '';
       card.innerHTML = `
         <div class="gallery-img-container">
-          <img src="${item.src}" alt="${escapeHTML(item.caption)}" class="gallery-img" loading="lazy">
+          <img src="${formattedSrc}" alt="${escapeHTML(item.caption)}" class="gallery-img" loading="lazy">
           <div class="gallery-overlay">
             <i class="fas fa-search-plus"></i>
             <span>View Image</span>
           </div>
           <span class="gallery-id-badge">
             <img src="assets/Flower 2.svg" class="gallery-flower-badge" aria-hidden="true">
-            <span class="gallery-id-text">#${item.id}</span>
+            ${idTextHtml}
           </span>
         </div>
         <div class="gallery-caption">${escapeHTML(item.caption)}</div>

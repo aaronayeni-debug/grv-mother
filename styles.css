@@ -345,6 +345,8 @@ h1, h2, h3, h4 {
   line-height: 1.1;
   color: var(--color-text-primary);
   margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .lifespan-dates {
@@ -1286,6 +1288,7 @@ h1, h2, h3, h4 {
 }
 
 .lightbox-caption {
+  display: none; /* hidden when images are viewed in lightbox */
   font-family: var(--font-heading);
   font-size: 1.4rem;
   font-style: italic;
