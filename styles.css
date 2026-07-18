@@ -673,6 +673,44 @@ h1, h2, h3, h4 {
   border-bottom: 1px solid rgba(179, 146, 104, 0.1);
 }
 
+/* Gallery Category Filter Tabs */
+.gallery-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+}
+
+.filter-btn {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1.2rem;
+  background-color: var(--color-white);
+  border: 1px solid rgba(179, 146, 104, 0.25);
+  color: var(--color-text-secondary);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold-dark);
+  background-color: var(--color-bg-paper-dark);
+}
+
+.filter-btn.active {
+  background-color: var(--color-gold-dark);
+  color: var(--color-white);
+  border-color: var(--color-gold-dark);
+  box-shadow: 0 2px 8px rgba(179, 146, 104, 0.3);
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -707,12 +745,42 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(15%) sepia(10%);
+  object-position: center 5px;
   transition: transform var(--transition-slow);
+}
+
+/* Gallery Pagination */
+.gallery-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+}
+
+.gallery-pagination.hidden {
+  display: none;
 }
 
 .gallery-card:hover .gallery-img {
   transform: scale(1.05);
+}
+
+/* Faint ID badge — bottom-right corner of image */
+.gallery-id-badge {
+  position: absolute;
+  bottom: 7px;
+  right: 9px;
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.38);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
 }
 
 .gallery-overlay {
@@ -749,6 +817,7 @@ h1, h2, h3, h4 {
 }
 
 .gallery-caption {
+  display: none; /* captions disabled — re-enable when ready */
   font-family: var(--font-heading);
   font-size: 1.15rem;
   font-style: italic;

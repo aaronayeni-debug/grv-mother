@@ -308,66 +308,31 @@
       </div>
       <p class="section-subtitle">Moments from a beautiful life, shared by family and friends.</p>
 
-      <div class="gallery-grid">
-        <!-- Gallery Item 1 -->
-        <div class="gallery-card" onclick="openLightbox(0)">
-          <div class="gallery-img-container">
-            <img src="assets/hero-portrait.jpg" alt="Matriarch Portrait" class="gallery-img">
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-              <span>View Portrait</span>
-            </div>
-          </div>
-          <div class="gallery-caption">Main Portrait</div>
-        </div>
+      <!-- Category Filter Tabs -->
+      <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">All Photos</button>
+        <button class="filter-btn" data-filter="mother">Loving Mother</button>
+        <button class="filter-btn" data-filter="family">Older &amp; Family</button>
+        <button class="filter-btn" data-filter="career">Career</button>
+        <button class="filter-btn" data-filter="youth">Youth Days</button>
+        <button class="filter-btn" data-filter="wedding">Wedding</button>
+        <button class="filter-btn" data-filter="university">University</button>
+        <button class="filter-btn" data-filter="sec_school">Secondary School</button>
+      </div>
 
-        <!-- Gallery Item 2 -->
-        <div class="gallery-card" onclick="openLightbox(1)">
-          <div class="gallery-img-container">
-            <img src="assets/gallery-1.png" alt="A beautiful remembrance setting" class="gallery-img">
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-              <span>View Image</span>
-            </div>
-          </div>
-          <div class="gallery-caption">Tribute Presentation</div>
-        </div>
+      <div id="gallery-grid" class="gallery-grid">
+        <!-- Dynamically rendered by script.js -->
+      </div>
 
-        <!-- Gallery Item 3 -->
-        <div class="gallery-card" onclick="openLightbox(2)">
-          <div class="gallery-img-container">
-            <img src="assets/gallery-2.png" alt="Family memorial tribute" class="gallery-img">
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-              <span>View Image</span>
-            </div>
-          </div>
-          <div class="gallery-caption">Nostalgic Remembrance</div>
-        </div>
-
-        <!-- Gallery Item 4 -->
-        <!-- <div class="gallery-card" onclick="openLightbox(3)">
-          <div class="gallery-img-container">
-            <img src="assets/gallery-3.jpg" alt="Stella Rhodes-Vivour smiling portrait" class="gallery-img">
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-              <span>View Image</span>
-            </div>
-          </div>
-          <div class="gallery-caption">Moments of Joy</div>
-        </div> -->
-
-        <!-- Gallery Item 5 -->
-        <div class="gallery-card" onclick="openLightbox(4)">
-          <div class="gallery-img-container">
-            <img src="assets/gallery-4.jpg" alt="Dignified pose" class="gallery-img">
-            <div class="gallery-overlay">
-              <i class="fas fa-search-plus"></i>
-              <span>View Image</span>
-            </div>
-          </div>
-          <div class="gallery-caption">Grace & Humility</div>
-        </div>
+      <!-- Gallery Pagination Controls -->
+      <div id="gallery-pagination" class="gallery-pagination hidden">
+        <button id="gallery-prev-btn" class="btn btn-page" disabled>
+          <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <span id="gallery-page-indicator" class="page-indicator">Page 1 of 1</span>
+        <button id="gallery-next-btn" class="btn btn-page">
+          Next <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
   </section>

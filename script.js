@@ -35,14 +35,11 @@ function getSessionId() {
   return sid;
 }
 
-const galleryData = [
-  { src: 'assets/hero-portrait.jpg',  caption: 'Nkechi Stella Rhodes-Vivour &mdash; Main Portrait' },
-  { src: 'assets/gallery-1.png',      caption: 'Tribute Presentation (Layout Reference)' },
-  { src: 'assets/gallery-2.png',      caption: 'Obituary Announcement Layout' },
-  { src: 'assets/gallery-3.jpg',      caption: 'Stella Rhodes-Vivour &mdash; Matriarch\'s Smile' },
-  { src: 'assets/gallery-4.jpg',      caption: 'Graceful & Humble Matriarch' }
-];
+let galleryData = [];
+let activeGalleryData = [];
 let currentLightboxIndex = 0;
+let currentGalleryPage = 1;
+const itemsPerGalleryPage = 21;
 
 /* -------------------------------------------------------------
    INIT
@@ -56,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormSubmit();
   initScrollSpy();
   initShareLinks();
+  initGallery();
 
   document.addEventListener('keydown', (e) => {
     const lightbox = document.getElementById('lightbox-modal');
@@ -129,9 +127,9 @@ function renderTributes() {
     const card     = document.createElement('article');
     card.className = 'tribute-card';
 
-    // "New" badge only on the top 5 most recent tributes (index 0–4 in sorted array)
-    const globalIndex = start + pageIndex;
-    const badge = globalIndex < 5 ? '<span class="tribute-new-badge">New</span>' : '';
+    // "New" badge only if the tribute was submitted within the last 24 hours
+    const ageMs  = Date.now() - new Date(tribute.created_at).getTime();
+    const badge  = ageMs < 24 * 60 * 60 * 1000 ? '<span class="tribute-new-badge">New</span>' : '';
 
     // Timestamp formatting
     const dateObj  = new Date(tribute.created_at);
@@ -193,63 +191,69 @@ function updatePaginationControls() {
 }
 
 /* -------------------------------------------------------------
-   VIRTUAL CANDLE — localStorage-tracked count
-   (Supabase persistence commented out)
+   VIRTUAL CANDLE — Xano-backed
+   GET  https://x8ki-letl-twmt.n7.xano.io/api:eL8dfiNx/candle1  → { candle: <n> }
+   POST https://x8ki-letl-twmt.n7.xano.io/api:eL8dfiNx/candle   → records click
    ------------------------------------------------------------- */
+const XANO_CANDLE_GET  = 'https://x8ki-letl-twmt.n7.xano.io/api:eL8dfiNx/candle1';
+const XANO_CANDLE_POST = 'https://x8ki-letl-twmt.n7.xano.io/api:eL8dfiNx/candle';
+
 async function initVirtualCandle() {
   const countSpan = document.getElementById('candle-count');
   const btn       = document.getElementById('light-candle-btn');
   const flame     = document.getElementById('candle-flame');
 
+  if (!countSpan || !btn || !flame) return;
+
   flame.classList.add('lit');
 
-  // Base count + any locally incremented candles
-  let totalCount = 128 + parseInt(localStorage.getItem('candle_offset') || '0', 10);
+  // ── Fetch live count from Xano ──
+  try {
+    const res  = await fetch(XANO_CANDLE_GET);
+    const data = await res.json();
+    // Xano returns [{"candle": n}] — handle both array and plain object
+    const item  = Array.isArray(data) ? data[0] : data;
+    const count = typeof item === 'number' ? item : (item?.candle ?? item?.count ?? 0);
+    countSpan.innerText = count;
+  } catch (err) {
+    console.error('Could not fetch candle count:', err);
+    countSpan.innerText = '—';
+  }
 
-  // ── Supabase candle count (commented out) ──
-  // if (supabaseClient) {
-  //   try {
-  //     const { count, error } = await supabaseClient
-  //       .from('candles').select('*', { count: 'exact', head: true });
-  //     if (!error && count !== null) totalCount = 128 + count;
-  //   } catch (_) {}
-  // }
-
-  countSpan.innerText = totalCount;
-
+  // ── Prevent double-lighting per browser session ──
   const alreadyLit = localStorage.getItem('user_lit_candle') === 'true';
   if (alreadyLit) {
     btn.innerHTML = '<i class="fas fa-check"></i> Candle Lit';
     btn.classList.replace('btn-outline-gold', 'btn-gold');
     btn.disabled = true;
+    return;
   }
 
   btn.addEventListener('click', async () => {
-    if (alreadyLit || btn.disabled) return;
+    if (btn.disabled) return;
     btn.disabled = true;
 
-    totalCount += 1;
-    countSpan.innerText = totalCount;
+    // Optimistic UI update
+    const current = parseInt(countSpan.innerText, 10) || 0;
+    countSpan.innerText = current + 1;
     flame.classList.add('lit');
     btn.innerHTML = '<i class="fas fa-check"></i> Candle Lit';
     btn.classList.replace('btn-outline-gold', 'btn-gold');
-    localStorage.setItem('user_lit_candle', 'true');
-    localStorage.setItem('candle_offset', String(parseInt(localStorage.getItem('candle_offset') || '0', 10) + 1));
     createSparkEffect(btn);
+    localStorage.setItem('user_lit_candle', 'true');
 
-    // ── Supabase candle insert (commented out) ──
-    // if (supabaseClient) {
-    //   try {
-    //     await supabaseClient.from('candles').insert([{ session_id: getSessionId() }]);
-    //   } catch (err) { console.error('Could not save candle:', err); }
-    // }
-
-    setInterval(() => {
-      if (Math.random() > 0.85) {
-        totalCount += 1;
-        countSpan.innerText = totalCount;
-      }
-    }, 12000);
+    // ── POST to Xano ──
+    try {
+      await fetch(XANO_CANDLE_POST, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
+      // Re-fetch authoritative count after POST
+      const res   = await fetch(XANO_CANDLE_GET);
+      const data  = await res.json();
+      const item  = Array.isArray(data) ? data[0] : data;
+      const count = typeof item === 'number' ? item : (item?.candle ?? item?.count ?? current + 1);
+      countSpan.innerText = count;
+    } catch (err) {
+      console.error('Could not record candle:', err);
+    }
   });
 }
 
@@ -436,8 +440,8 @@ function openLightbox(index) {
   currentLightboxIndex = index;
   const img     = document.getElementById('lightbox-img');
   const caption = document.getElementById('lightbox-caption');
-  img.src           = galleryData[index].src;
-  caption.innerHTML = galleryData[index].caption;
+  img.src           = activeGalleryData[index].src;
+  caption.innerHTML = activeGalleryData[index].caption;
   document.getElementById('lightbox-modal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
@@ -448,9 +452,135 @@ function closeLightbox() {
 }
 
 function changeLightboxImage(dir) {
-  currentLightboxIndex = (currentLightboxIndex + dir + galleryData.length) % galleryData.length;
-  document.getElementById('lightbox-img').src                   = galleryData[currentLightboxIndex].src;
-  document.getElementById('lightbox-caption').innerHTML = galleryData[currentLightboxIndex].caption;
+  if (activeGalleryData.length === 0) return;
+  currentLightboxIndex = (currentLightboxIndex + dir + activeGalleryData.length) % activeGalleryData.length;
+  document.getElementById('lightbox-img').src                   = activeGalleryData[currentLightboxIndex].src;
+  document.getElementById('lightbox-caption').innerHTML = activeGalleryData[currentLightboxIndex].caption;
+}
+
+/* -------------------------------------------------------------
+   DYNAMIC GALLERY & FILTERING
+   ------------------------------------------------------------- */
+async function initGallery() {
+  const grid = document.getElementById('gallery-grid');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const paginationContainer = document.getElementById('gallery-pagination');
+  const prevBtn = document.getElementById('gallery-prev-btn');
+  const nextBtn = document.getElementById('gallery-next-btn');
+  const pageIndicator = document.getElementById('gallery-page-indicator');
+  
+  if (!grid) return;
+
+  // Load from external json
+  try {
+    const res = await fetch('gallery.json');
+    galleryData = await res.json();
+  } catch (err) {
+    console.error('Failed to load gallery.json:', err);
+    galleryData = [];
+  }
+
+  activeGalleryData = [...galleryData];
+  let activeFilter = 'all';
+
+  function renderGrid() {
+    grid.innerHTML = '';
+
+    let itemsToRender;
+    let start = 0;
+
+    if (activeFilter === 'all') {
+      // Paginate only for All Photos
+      start = (currentGalleryPage - 1) * itemsPerGalleryPage;
+      itemsToRender = activeGalleryData.slice(start, start + itemsPerGalleryPage);
+    } else {
+      // Show every image in a specific category
+      itemsToRender = activeGalleryData;
+    }
+
+    if (itemsToRender.length === 0) {
+      grid.innerHTML = '<div class="tributes-loading"><p>No photos available in this category.</p></div>';
+      updatePagination();
+      return;
+    }
+
+    itemsToRender.forEach((item, idx) => {
+      const card = document.createElement('div');
+      card.className = 'gallery-card';
+      const absoluteIndex = (activeFilter === 'all') ? start + idx : idx;
+      card.setAttribute('onclick', `openLightbox(${absoluteIndex})`);
+      card.innerHTML = `
+        <div class="gallery-img-container">
+          <img src="${item.src}" alt="${escapeHTML(item.caption)}" class="gallery-img" loading="lazy">
+          <div class="gallery-overlay">
+            <i class="fas fa-search-plus"></i>
+            <span>View Image</span>
+          </div>
+          <span class="gallery-id-badge">#${item.id}</span>
+        </div>
+        <div class="gallery-caption">${escapeHTML(item.caption)}</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    updatePagination();
+  }
+
+  function updatePagination() {
+    // Only show pagination when viewing All Photos
+    if (activeFilter !== 'all') {
+      paginationContainer.classList.add('hidden');
+      return;
+    }
+    const totalPages = Math.ceil(activeGalleryData.length / itemsPerGalleryPage);
+    if (totalPages > 1) {
+      paginationContainer.classList.remove('hidden');
+      pageIndicator.innerText = `Page ${currentGalleryPage} of ${totalPages}`;
+      prevBtn.disabled = currentGalleryPage === 1;
+      nextBtn.disabled = currentGalleryPage === totalPages;
+    } else {
+      paginationContainer.classList.add('hidden');
+    }
+  }
+
+  // Setup button handlers
+  if (prevBtn && nextBtn) {
+    prevBtn.onclick = () => {
+      if (currentGalleryPage > 1) {
+        currentGalleryPage--;
+        renderGrid();
+        document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+    nextBtn.onclick = () => {
+      const totalPages = Math.ceil(activeGalleryData.length / itemsPerGalleryPage);
+      if (currentGalleryPage < totalPages) {
+        currentGalleryPage++;
+        renderGrid();
+        document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+  }
+
+  // Setup filters
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.getAttribute('data-filter');
+
+      if (activeFilter === 'all') {
+        activeGalleryData = [...galleryData];
+      } else {
+        activeGalleryData = galleryData.filter(item => item.category === activeFilter);
+      }
+
+      currentGalleryPage = 1;
+      renderGrid();
+    });
+  });
+
+  renderGrid();
 }
 
 window.openTributeModal   = openTributeModal;
@@ -458,6 +588,8 @@ window.closeTributeModal  = closeTributeModal;
 window.openLightbox       = openLightbox;
 window.closeLightbox      = closeLightbox;
 window.changeLightboxImage = changeLightboxImage;
+window.initGallery        = initGallery;
+window.initGallery        = initGallery;
 
 /* -------------------------------------------------------------
    SCROLL SPY
