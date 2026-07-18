@@ -341,12 +341,12 @@ h1, h2, h3, h4 {
 }
 
 .deceased-name {
-  font-size: 3.5rem;
+  font-size: 3.1rem;
   line-height: 1.1;
   color: var(--color-text-primary);
   margin-bottom: 0.5rem;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .lifespan-dates {
