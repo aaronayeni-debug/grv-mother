@@ -518,7 +518,8 @@ async function initGallery() {
             <span>View Image</span>
           </div>
           <span class="gallery-id-badge">
-            <img src="assets/Flower 2.svg" class="gallery-flower-badge" aria-hidden="true">#${item.id}
+            <img src="assets/Flower 2.svg" class="gallery-flower-badge" aria-hidden="true">
+            <span class="gallery-id-text">#${item.id}</span>
           </span>
         </div>
         <div class="gallery-caption">${escapeHTML(item.caption)}</div>

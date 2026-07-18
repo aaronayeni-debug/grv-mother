@@ -677,10 +677,22 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 5px; /* 5px distance from top to prevent cut-off faces */
+  object-position: top center; /* anchor top so faces are never cropped */
   opacity: 0;
-  transform: scale(1.08); /* starts slightly zoomed in */
-  transition: opacity 1.2s ease-in-out, transform 5s linear; /* smooth Ken Burns transition */
+  transform: scale(1.05);
+  transition: opacity 1.2s ease-in-out, transform 5s linear;
+}
+
+/* Family & Marriage — cover, shifted slightly right so left side shows more */
+#slider-family .bio-slide {
+  object-fit: cover;
+  object-position: 30% top; /* shifts image right, revealing more of the left/bride side */
+  transform: scale(1.05);
+}
+
+#slider-family .bio-slide.active {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .bio-slide.active {
@@ -744,15 +756,15 @@ h1, h2, h3, h4 {
 }
 
 /* ── Gallery flower badge ── */
+/* Flower as background layer — golden natural colour */
 .gallery-flower-badge {
-  width: 48px;
-  height: 48px;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  opacity: 0.35;
-  filter: sepia(1) saturate(0.6) brightness(1.6);
-  vertical-align: middle;
-  margin-right: 6px;
-  display: inline-block;
+  opacity: 0.82;
+  filter: sepia(0.4) saturate(2) brightness(1.1) hue-rotate(-5deg);
 }
 
 /* -------------------------------------------------------------
@@ -836,8 +848,9 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 5px; /* 5px distance from top */
-  transform: scale(1.08); /* slight default zoom in */
+  object-position: center 5px; /* 5px gap from top */
+  transform: scale(1.08);
+  transform-origin: top center; /* scale expands downward, top stays pinned */
   transition: transform var(--transition-slow);
 }
 
@@ -865,21 +878,43 @@ h1, h2, h3, h4 {
 }
 
 /* Faint ID badge — bottom-right corner of image */
+/* Badge container — flower on top, #id text below */
 .gallery-id-badge {
   position: absolute;
-  bottom: 8px;
-  right: 10px;
+  bottom: 6px;
+  right: 8px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.45);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  gap: 1px;
   pointer-events: none;
   user-select: none;
   z-index: 2;
+}
+
+/* Flower above */
+.gallery-flower-badge {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  opacity: 0.75;
+  filter: sepia(0.4) saturate(2) brightness(1.1) hue-rotate(-5deg);
+  display: block;
+  flex-shrink: 0;
+}
+
+/* #id text below flower — faint */
+.gallery-id-text {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-ui);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.35);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  line-height: 1;
 }
 
 .gallery-overlay {
