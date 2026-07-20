@@ -159,6 +159,7 @@ function renderTributes() {
     const dateStr  = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
     card.innerHTML = `
+      ${badge}
       <!-- Underlay watermarks inside the card itself -->
       <div class="tribute-card-bg" aria-hidden="true">
         <img src="assets/Dove.svg" class="tribute-card-dove" alt="">
@@ -171,20 +172,18 @@ function renderTributes() {
       </div>
 
       <div class="tribute-card-header">
-        <div class="tribute-header-left">
-          ${badge}
-        </div>
+        <div class="tribute-header-left"></div>
         <img class="tribute-flower-img" src="assets/flower.svg" alt="Flower accent" aria-hidden="true">
+        <div class="tribute-timestamp-block">
+          <span class="tribute-date-str">${dateStr}</span>
+          <span class="tribute-time-str">${timeStr}</span>
+        </div>
       </div>
 
       <div class="tribute-body-meta">
         <div class="tribute-author-block">
           <h4 class="tribute-author">${escapeHTML(tribute.name)}</h4>
           <span class="tribute-relation">${escapeHTML(tribute.relation)}</span>
-        </div>
-        <div class="tribute-timestamp-block">
-          <span class="tribute-date-str">${dateStr}</span>
-          <span class="tribute-time-str">${timeStr}</span>
         </div>
       </div>
 
@@ -202,12 +201,43 @@ function updatePaginationControls() {
   const pageIndicator = document.getElementById('page-indicator');
   const totalPages   = Math.ceil(allTributes.length / itemsPerPage);
 
-  pageIndicator.innerText = `Page ${currentPage} of ${totalPages}`;
   prevBtn.disabled = currentPage === 1;
   nextBtn.disabled = currentPage === totalPages;
 
   prevBtn.onclick = () => { if (currentPage > 1)          { currentPage--; renderTributes(); document.getElementById('tributes').scrollIntoView({ behavior: 'smooth' }); } };
   nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; renderTributes(); document.getElementById('tributes').scrollIntoView({ behavior: 'smooth' }); } };
+
+  // Generate numbered buttons
+  pageIndicator.innerHTML = '';
+  const range = 1; // number of pages to show around current page
+
+  const pages = [];
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= currentPage - range && i <= currentPage + range)) {
+      pages.push(i);
+    } else if (pages[pages.length - 1] !== '...') {
+      pages.push('...');
+    }
+  }
+
+  pages.forEach(page => {
+    if (page === '...') {
+      const span = document.createElement('span');
+      span.className = 'pagination-ellipsis';
+      span.innerText = '...';
+      pageIndicator.appendChild(span);
+    } else {
+      const btn = document.createElement('button');
+      btn.className = `btn btn-page-number ${page === currentPage ? 'active' : ''}`;
+      btn.innerText = page;
+      btn.onclick = () => {
+        currentPage = page;
+        renderTributes();
+        document.getElementById('tributes').scrollIntoView({ behavior: 'smooth' });
+      };
+      pageIndicator.appendChild(btn);
+    }
+  });
 }
 
 /* -------------------------------------------------------------
