@@ -55,7 +55,8 @@ const itemsPerGalleryPage = 21;
 /* -------------------------------------------------------------
    INIT
    ------------------------------------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadServiceDetails();
   loadTributes();
   initVirtualCandle();
   initAudioPlayer();
@@ -759,3 +760,177 @@ function escapeHTML(str) {
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
   );
 }
+
+/* -------------------------------------------------------------
+   LOAD SERVICE DETAILS COMPONENT
+   ------------------------------------------------------------- */
+async function loadServiceDetails() {
+  const container = document.getElementById('service-details-container');
+  if (!container) return;
+
+  const fallbackHTML = `<section id="service-details" class="service-details-section scroll-offset">
+
+  <!-- Background Flower Watermarks -->
+  <img src="assets/Flower 1.svg" class="service-flower-watermark left-flower" alt="" aria-hidden="true" />
+  <img src="assets/Flower 3.svg" class="service-flower-watermark right-flower" alt="" aria-hidden="true" />
+
+  <div class="section-container">
+    
+    <div class="service-header-wrapper">
+      <div class="service-header-composition">
+        <img src="assets/Flower 3.svg" alt="Floral Motif" class="header-flower-img" />
+      </div>
+      <h2 class="section-title">Service Details &amp; Funeral Schedule</h2>
+      <div class="title-divider"></div>
+      <p class="section-subtitle">Order of events, timings, dress codes, and location maps for family and friends.</p>
+    </div>
+
+    <div class="service-3x2-grid">
+
+      <div class="grid-card event-unified-card card-event-1">
+        <div class="detail-card-inner">
+          <div class="event-card-header">
+            <h3 class="event-card-title">Night of Tributes &amp; Service of Songs</h3>
+          </div>
+          <div class="event-card-content">
+            <div class="info-row">
+              <div class="info-icon"><i class="far fa-calendar-alt"></i></div>
+              <div class="info-body">
+                <span class="info-label">Date &amp; Time</span>
+                <strong class="info-val">Tuesday, 28th July 2026</strong>
+                <span class="info-sub">5:00 PM &ndash; 8:00 PM</span>
+              </div>
+            </div>
+            <div class="info-row venue-row">
+              <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="info-body">
+                <span class="info-label">Venue</span>
+                <strong class="info-val">White Stone Event Centre</strong>
+                <span class="info-sub">3 Billings Way, Oregun, Ikeja, Lagos</span>
+              </div>
+            </div>
+            <div class="info-row">
+              <div class="info-icon"><i class="fas fa-user-tie"></i></div>
+              <div class="info-body">
+                <span class="info-label">Color of the Day</span>
+                <div class="dress-badge dress-white"><span class="dress-text">White</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="location-card-inner">
+          <div class="location-header"><i class="fas fa-map-marked-alt loc-icon"></i><span>White Stone Event Centre</span></div>
+          <div class="map-embed-container">
+            <iframe src="https://maps.google.com/maps?q=White+Stone+Event+Centre,+3+Billings+Way,+Oregun,+Ikeja,+Lagos&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map: White Stone"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-card event-unified-card card-event-2">
+        <div class="detail-card-inner">
+          <div class="event-card-header">
+            <h3 class="event-card-title">Lying In State</h3>
+          </div>
+          <div class="event-card-content">
+            <div class="info-row">
+              <div class="info-icon"><i class="far fa-calendar-alt"></i></div>
+              <div class="info-body">
+                <span class="info-label">Date &amp; Time</span>
+                <strong class="info-val">Wednesday, 29th July 2026</strong>
+                <span class="info-sub">8:00 AM &ndash; 9:00 AM</span>
+              </div>
+            </div>
+            <div class="info-row venue-row">
+              <div class="info-icon"><i class="fas fa-home"></i></div>
+              <div class="info-body">
+                <span class="info-label">Venue</span>
+                <strong class="info-val">At Her Residence</strong>
+                <span class="info-sub">Family Residence (Private Gathering)</span>
+              </div>
+            </div>
+            <div class="info-row">
+              <div class="info-icon"><i class="fas fa-user-tie"></i></div>
+              <div class="info-body">
+                <span class="info-label">Color of the Day</span>
+                <div class="dress-badge dress-blue"><span class="dress-text">Shades of Blue</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="location-card-inner">
+          <div class="location-header"><i class="fas fa-home loc-icon"></i><span>Private Residence</span></div>
+          <div class="residence-card-view">
+            <div class="residence-inner-graphic">
+              <div class="residence-illustration"><img src="assets/Candle 1.svg" class="residence-candle-img" alt="" /></div>
+              <h4>Private Residence</h4>
+              <p>Ikeja, Lagos, Nigeria</p>
+              <span class="residence-note">Address shared with family &amp; invited guests.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-card event-unified-card card-event-3">
+        <div class="detail-card-inner">
+          <div class="event-card-header">
+            <h3 class="event-card-title">Church Service</h3>
+          </div>
+          <div class="event-card-content">
+            <div class="info-row">
+              <div class="info-icon"><i class="far fa-calendar-alt"></i></div>
+              <div class="info-body">
+                <span class="info-label">Date &amp; Time</span>
+                <strong class="info-val">Wednesday, 29th July 2026</strong>
+                <span class="info-sub">10:00 AM &ndash; 12:00 PM</span>
+              </div>
+            </div>
+            <div class="info-row venue-row">
+              <div class="info-icon"><i class="fas fa-church"></i></div>
+              <div class="info-body">
+                <span class="info-label">Venue</span>
+                <strong class="info-val">RCCG (FOLS Parish)</strong>
+                <span class="info-sub">1 Isreal Adebayo Close, Off Ladipo Oluwole St, Ikeja</span>
+              </div>
+            </div>
+            <div class="info-row">
+              <div class="info-icon"><i class="fas fa-user-tie"></i></div>
+              <div class="info-body">
+                <span class="info-label">Color of the Day</span>
+                <div class="dress-badge dress-blue"><span class="dress-text">Shades of Blue</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="location-card-inner">
+          <div class="location-header"><i class="fas fa-church loc-icon"></i><span>RCCG FOLS Parish</span></div>
+          <div class="map-embed-container">
+            <iframe src="https://maps.google.com/maps?q=Redeemed+Christian+Church+of+God,+1+Isreal+Adebayo+close,+Off+Ladipo+Oluwole+Street,+Ikeja,+Lagos&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map: RCCG FOLS"></iframe>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="service-footer-quote">
+      <div class="quote-composition">
+        <img src="assets/Flower 1.svg" alt="" class="footer-flower-img" />
+      </div>
+      <p class="quote-text">&ldquo;Fondly remembered by her husband, children, grandchildren, family and friends.&rdquo;</p>
+    </div>
+
+  </div>
+</section>`;
+
+  try {
+    const response = await fetch('service-details.html');
+    if (response.ok) {
+      const html = await response.text();
+      container.innerHTML = html;
+    } else {
+      container.innerHTML = fallbackHTML;
+    }
+  } catch (err) {
+    container.innerHTML = fallbackHTML;
+  }
+}
+

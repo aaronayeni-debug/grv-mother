@@ -70,6 +70,7 @@
         <ul>
           <li><a href="#hero" class="nav-link active">Home</a></li>
           <li><a href="#biography" class="nav-link">Biography</a></li>
+          <li><a href="#service-details" class="nav-link">Service Details</a></li>
           <li><a href="#tributes" class="nav-link">Tributes</a></li>
           <li><a href="#gallery" class="nav-link">Gallery</a></li>
         </ul>
@@ -95,7 +96,7 @@
       <!-- Hero Biography Text -->
       <div class="hero-text-content">
         <span class="call-to-glory">Call to Glory</span>
-        <h1 class="deceased-name">Nkechi Rhodes-Vivour <br> <span> (Nee Waboso) </span> </h1>
+        <h1 class="deceased-name"><span class="name-line">Nkechi Rhodes-Vivour</span> <br> <span class="name-sub">(Nee Waboso)</span></h1>
         <p class="lifespan-dates">June, 1957 &mdash; July, 2026 &bull; Aged 69</p>
 
         <div class="separator">
@@ -267,11 +268,11 @@
         <!-- Pagination Controls -->
         <div id="tributes-pagination" class="tributes-pagination hidden">
           <button id="prev-page-btn" class="btn btn-page" disabled>
-            <i class="fas fa-chevron-left"></i> Previous
+            <i class="fas fa-chevron-left"></i> <span class="page-label">Previous</span>
           </button>
           <div id="page-indicator" class="page-indicator"></div>
           <button id="next-page-btn" class="btn btn-page">
-            Next <i class="fas fa-chevron-right"></i>
+            <span class="page-label">Next</span> <i class="fas fa-chevron-right"></i>
           </button>
         </div>
       </div>
@@ -285,6 +286,9 @@
 
     </div>
   </section>
+
+  <!-- Service Details Section Container (Dynamic component passed from service-details.html) -->
+  <div id="service-details-container"></div>
 
   <!-- Gallery Section -->
   <section id="gallery" class="gallery-section scroll-offset">
@@ -314,11 +318,11 @@
       <!-- Gallery Pagination Controls -->
       <div id="gallery-pagination" class="gallery-pagination hidden">
         <button id="gallery-prev-btn" class="btn btn-page" disabled>
-          <i class="fas fa-chevron-left"></i> Previous
+          <i class="fas fa-chevron-left"></i> <span class="page-label">Previous</span>
         </button>
         <span id="gallery-page-indicator" class="page-indicator">Page 1 of 1</span>
         <button id="gallery-next-btn" class="btn btn-page">
-          Next <i class="fas fa-chevron-right"></i>
+          <span class="page-label">Next</span> <i class="fas fa-chevron-right"></i>
         </button>
       </div>
     </div>
