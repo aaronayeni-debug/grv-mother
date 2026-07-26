@@ -768,7 +768,102 @@ async function loadServiceDetails() {
   const container = document.getElementById('service-details-container');
   if (!container) return;
 
-  const fallbackHTML = `<section id="service-details" class="service-details-section scroll-offset">
+  const fallbackHTML = `<!-- SERVICE OF SONGS ZOOM DETAILS SECTION -->
+<section id="zoom-service-section" class="zoom-service-section scroll-offset">
+  <div class="section-container">
+    
+    <div class="zoom-card-container">
+      
+      <div class="zoom-card-header">
+        <span class="zoom-header-tag">PLEASE JOIN US FOR THE</span>
+        <h2 class="zoom-header-title">Service of Songs</h2>
+        <p class="zoom-header-sub">Honoring the life &amp; legacy of our beloved</p>
+        
+        <div class="zoom-mobile-swipe-hint">
+          <i class="fas fa-hand-pointer"></i> <span>Swipe for Zoom details</span>
+        </div>
+      </div>
+
+      <div class="zoom-card-body">
+        
+        <p class="zoom-invite-text">
+          <i class="fas fa-users-rectangle"></i>
+          The Rhodes-Vivour family invites you to a scheduled Zoom meeting
+        </p>
+
+        <div class="zoom-details-wrapper" id="zoom-details-swiper">
+          
+          <div class="zoom-detail-card">
+            <div class="zoom-card-icon-wrap">
+              <i class="far fa-calendar-check"></i>
+            </div>
+            <span class="zoom-detail-label">Date</span>
+            <strong class="zoom-detail-value">Tue, 28 Jul 2026</strong>
+            <span class="zoom-detail-sub">Tuesday, July 28, 2026</span>
+          </div>
+
+          <div class="zoom-detail-card">
+            <div class="zoom-card-icon-wrap">
+              <i class="far fa-clock"></i>
+            </div>
+            <span class="zoom-detail-label">Time</span>
+            <strong class="zoom-detail-value">5:00 PM WAT</strong>
+            <span class="zoom-detail-sub">West Central Africa</span>
+          </div>
+
+          <div class="zoom-detail-card">
+            <div class="zoom-card-icon-wrap">
+              <i class="fas fa-video"></i>
+            </div>
+            <span class="zoom-detail-label">Meeting ID</span>
+            <strong class="zoom-detail-value">417 530 9083</strong>
+            <button type="button" class="copy-small-btn" onclick="copyZoomCredential('4175309083', 'Meeting ID')" title="Copy Meeting ID">
+              <i class="far fa-copy"></i> Copy
+            </button>
+          </div>
+
+          <div class="zoom-detail-card">
+            <div class="zoom-card-icon-wrap">
+              <i class="fas fa-lock"></i>
+            </div>
+            <span class="zoom-detail-label">Passcode</span>
+            <strong class="zoom-detail-value">NRV2026&amp;</strong>
+            <button type="button" class="copy-small-btn" onclick="copyZoomCredential('NRV2026&', 'Passcode')" title="Copy Passcode">
+              <i class="far fa-copy"></i> Copy
+            </button>
+          </div>
+
+        </div>
+
+        <div class="zoom-mobile-dots" id="zoom-mobile-dots">
+          <span class="zoom-dot active" data-slide="0"></span>
+          <span class="zoom-dot" data-slide="1"></span>
+          <span class="zoom-dot" data-slide="2"></span>
+          <span class="zoom-dot" data-slide="3"></span>
+        </div>
+
+        <div class="zoom-actions-wrapper">
+          <a href="https://zoom.us/j/4175309083" target="_blank" rel="noopener" class="btn btn-zoom-join">
+            <i class="fas fa-video"></i> Join Zoom Meeting
+          </a>
+          <button type="button" class="btn btn-outline-gold btn-copy-all" onclick="copyAllZoomDetails()">
+            <i class="far fa-copy"></i> Copy Full Zoom Details
+          </button>
+        </div>
+
+        <p class="zoom-footer-subtext">
+          <em>Your presence, in spirit, means a lot to our family.</em>
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- MAIN SERVICE DETAILS & FUNERAL SCHEDULE SECTION -->
+<section id="service-details" class="service-details-section scroll-offset">
 
   <!-- Background Flower Watermarks -->
   <img src="assets/Flower 1.svg" class="service-flower-watermark left-flower" alt="" aria-hidden="true" />
@@ -932,5 +1027,86 @@ async function loadServiceDetails() {
   } catch (err) {
     container.innerHTML = fallbackHTML;
   }
+
+  // Initialize Zoom Swiper & Copy listeners
+  initZoomSwiper();
 }
+
+/* -------------------------------------------------------------
+   ZOOM SERVICE OF SONGS HELPERS & SWIPER
+   ------------------------------------------------------------- */
+function initZoomSwiper() {
+  const swiper = document.getElementById('zoom-details-swiper');
+  const dotsContainer = document.getElementById('zoom-mobile-dots');
+  if (!swiper || !dotsContainer) return;
+
+  const dots = dotsContainer.querySelectorAll('.zoom-dot');
+  
+  const updateDots = () => {
+    const cardWidth = swiper.firstElementChild ? swiper.firstElementChild.offsetWidth + 12 : 200;
+    const activeIndex = Math.min(
+      dots.length - 1,
+      Math.max(0, Math.round(swiper.scrollLeft / cardWidth))
+    );
+    
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === activeIndex);
+    });
+  };
+
+  swiper.addEventListener('scroll', updateDots, { passive: true });
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      const cardWidth = swiper.firstElementChild ? swiper.firstElementChild.offsetWidth + 12 : 200;
+      swiper.scrollTo({
+        left: index * cardWidth,
+        behavior: 'smooth'
+      });
+    });
+  });
+}
+
+function copyZoomCredential(text, label) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(`${label} (${text}) copied!`);
+    }).catch(() => {
+      fallbackCopyText(text, label);
+    });
+  } else {
+    fallbackCopyText(text, label);
+  }
+}
+
+function copyAllZoomDetails() {
+  const details = `SERVICE OF SONGS - ZOOM DETAILS\nDeceased: Mrs. Nkechinyere Stella Rhodes-Vivour\nDate: Tuesday, July 28, 2026\nTime: 5:00 PM WAT (West Central Africa)\nMeeting ID: 417 530 9083\nPasscode: NRV2026&\nJoin Link: https://zoom.us/j/4175309083`;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(details).then(() => {
+      showToast(`Full Zoom details copied to clipboard!`);
+    }).catch(() => {
+      fallbackCopyText(details, 'Zoom Details');
+    });
+  } else {
+    fallbackCopyText(details, 'Zoom Details');
+  }
+}
+
+function fallbackCopyText(text, label) {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.style.position = 'fixed';
+  textArea.style.opacity = '0';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    showToast(`${label} copied to clipboard!`);
+  } catch (err) {
+    showToast(`Copied to clipboard!`);
+  }
+  document.body.removeChild(textArea);
+}
+
 

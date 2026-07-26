@@ -2067,6 +2067,303 @@ h1, h2, h3, h4 {
 }
 
 /* -------------------------------------------------------------
+   SERVICE OF SONGS ZOOM CARD & SWIPER SECTION
+   ------------------------------------------------------------- */
+.zoom-service-section {
+  padding: 1.5rem 0 0.8rem;
+  background-color: var(--color-bg-paper-dark);
+  position: relative;
+  border-top: 1px solid rgba(179, 146, 104, 0.2);
+}
+
+.zoom-card-container {
+  background: var(--color-bg-paper);
+  border: 1px solid rgba(179, 146, 104, 0.35);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.zoom-card-header {
+  background: linear-gradient(135deg, #3a2846 0%, #4a355a 50%, #301f3b 100%);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.9rem 1rem 0.75rem;
+  position: relative;
+  border-bottom: 2px solid var(--color-gold);
+}
+
+.zoom-header-tag {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-gold-gold);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.zoom-header-title {
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  font-weight: 600;
+  color: #f7ebda;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.1rem;
+  line-height: 1.15;
+}
+
+.zoom-header-sub {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-style: italic;
+  color: #dfc299;
+  font-weight: 300;
+}
+
+.zoom-mobile-swipe-hint {
+  display: none;
+}
+
+.zoom-card-body {
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+.zoom-invite-text {
+  font-family: var(--font-heading);
+  font-size: 1.08rem;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.zoom-invite-text i {
+  color: var(--color-gold-dark);
+  font-size: 0.95rem;
+}
+
+.zoom-details-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem;
+  margin-bottom: 0.9rem;
+}
+
+.zoom-detail-card {
+  background: var(--color-white);
+  border: 1px solid rgba(179, 146, 104, 0.28);
+  border-radius: 8px;
+  padding: 0.75rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  transition: all var(--transition-med);
+}
+
+.zoom-detail-card:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(179, 146, 104, 0.15);
+}
+
+.zoom-card-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(74, 53, 90, 0.08);
+  color: #4a355a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.92rem;
+  margin-bottom: 0.3rem;
+}
+
+.zoom-detail-label {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-dark);
+  margin-bottom: 0.1rem;
+}
+
+.zoom-detail-value {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.15;
+}
+
+.zoom-detail-sub {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.1rem;
+}
+
+.copy-small-btn {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--color-gold-dark);
+  background: rgba(179, 146, 104, 0.1);
+  border: 1px solid rgba(179, 146, 104, 0.3);
+  border-radius: 8px;
+  padding: 0.15rem 0.45rem;
+  margin-top: 0.3rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.copy-small-btn:hover {
+  background: var(--color-gold);
+  color: #ffffff;
+}
+
+.zoom-actions-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.btn-zoom-join {
+  background: linear-gradient(135deg, #4a355a 0%, #301f3b 100%);
+  color: #ffffff !important;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(74, 53, 90, 0.15);
+  border: 1px solid var(--color-gold);
+}
+
+.btn-zoom-join:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(74, 53, 90, 0.22);
+  background: linear-gradient(135deg, #593e6d 0%, #3a2548 100%);
+}
+
+.btn-copy-all {
+  border-radius: 25px;
+  padding: 0.58rem 1.3rem;
+  font-size: 0.8rem;
+}
+
+.zoom-footer-subtext {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  color: var(--color-gold-dark);
+  font-style: italic;
+}
+
+.zoom-mobile-dots {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .zoom-card-body {
+    padding: 1.5rem 1rem;
+  }
+  
+  .zoom-header-title {
+    font-size: 1.8rem;
+  }
+
+  .zoom-mobile-swipe-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    color: var(--color-gold-gold);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    margin-top: 0.6rem;
+    border: 1px solid rgba(223, 194, 153, 0.3);
+  }
+
+  .zoom-details-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.8rem;
+    padding-bottom: 0.8rem;
+    scrollbar-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .zoom-details-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .zoom-detail-card {
+    flex: 0 0 82%;
+    scroll-snap-align: center;
+    padding: 1.5rem 1.2rem;
+    min-height: 140px;
+  }
+
+  .zoom-mobile-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .zoom-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(179, 146, 104, 0.3);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .zoom-dot.active {
+    width: 22px;
+    border-radius: 10px;
+    background: #4a355a;
+  }
+
+  .zoom-actions-wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-zoom-join, .btn-copy-all {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* -------------------------------------------------------------
    SERVICE DETAILS & FUNERAL SCHEDULE SECTION
    ------------------------------------------------------------- */
 .service-details-section {
