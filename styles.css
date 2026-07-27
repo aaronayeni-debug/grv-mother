@@ -871,15 +871,20 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 10px; /* 5px gap from top */
+  object-position: center 10px;
   transform: scale(1.08);
-  transform-origin: top center; /* scale expands downward, top stays pinned */
+  transform-origin: top center;
   transition: transform var(--transition-slow);
 }
 
+.gallery-video-thumb {
+  pointer-events: none; /* clicks pass through to the card onclick */
+}
+
 .gallery-card.frame-family .gallery-img,
+.gallery-card.frame-new_family .gallery-img,
 .gallery-card.frame-wedding .gallery-img {
-  object-position: center center; /* center group photos vertically */
+  object-position: center center;
 }
 
 /* Gallery Pagination */
@@ -1871,7 +1876,7 @@ h1, h2, h3, h4 {
   }
   
   .deceased-name {
-    font-size: clamp(1.4rem, 6.5vw, 2.3rem);
+    font-size: clamp(1.8rem, 6.9vw, 2.8rem);
     padding: 2px;
   }
   
@@ -2070,10 +2075,8 @@ h1, h2, h3, h4 {
    SERVICE OF SONGS ZOOM CARD & SWIPER SECTION
    ------------------------------------------------------------- */
 .zoom-service-section {
-  padding: 1.5rem 0 0.8rem;
-  background-color: var(--color-bg-paper-dark);
+  padding: 1.2rem 0 1.5rem;
   position: relative;
-  border-top: 1px solid rgba(179, 146, 104, 0.2);
 }
 
 .zoom-card-container {
@@ -2676,10 +2679,24 @@ h1, h2, h3, h4 {
   transform: rotate(-15deg);
 }
 
+.service-flower-watermark.top-right-flower {
+  top: 20px;
+  right: -90px;
+  transform: rotate(-15deg);
+}
+
 .service-flower-watermark.right-flower {
   bottom: 20px;
   right: -90px;
   transform: rotate(165deg);
+}
+
+.service-flower-watermark.candle-flower-bl {
+  bottom: -40px;
+  left: -60px;
+  width: 320px;
+  transform: rotate(10deg);
+  opacity: 0.18;
 }
 
 .service-header-wrapper {

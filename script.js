@@ -487,17 +487,39 @@ function initFormSubmit() {
 function openTributeModal()  { document.getElementById('tribute-modal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
 function closeTributeModal() { document.getElementById('tribute-modal').style.display = 'none'; document.body.style.overflow = 'auto';  }
 
+function setLightboxMedia(item) {
+  const img   = document.getElementById('lightbox-img');
+  const vid   = document.getElementById('lightbox-video');
+  const caption = document.getElementById('lightbox-caption');
+  const isVideo = item.type === 'video';
+
+  if (isVideo) {
+    img.style.display = 'none';
+    img.src = '';
+    vid.style.display = 'block';
+    vid.src = item.src;
+    vid.load();
+    vid.play().catch(() => {});
+  } else {
+    vid.pause();
+    vid.src = '';
+    vid.style.display = 'none';
+    img.style.display = 'block';
+    img.src = formatCloudinaryUrl(item.src);
+  }
+  caption.innerHTML = item.caption;
+}
+
 function openLightbox(index) {
   currentLightboxIndex = index;
-  const img     = document.getElementById('lightbox-img');
-  const caption = document.getElementById('lightbox-caption');
-  img.src           = formatCloudinaryUrl(activeGalleryData[index].src);
-  caption.innerHTML = activeGalleryData[index].caption;
+  setLightboxMedia(activeGalleryData[index]);
   document.getElementById('lightbox-modal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
+  const vid = document.getElementById('lightbox-video');
+  if (vid) { vid.pause(); vid.src = ''; }
   document.getElementById('lightbox-modal').style.display = 'none';
   document.body.style.overflow = 'auto';
 }
@@ -505,8 +527,7 @@ function closeLightbox() {
 function changeLightboxImage(dir) {
   if (activeGalleryData.length === 0) return;
   currentLightboxIndex = (currentLightboxIndex + dir + activeGalleryData.length) % activeGalleryData.length;
-  document.getElementById('lightbox-img').src                   = formatCloudinaryUrl(activeGalleryData[currentLightboxIndex].src);
-  document.getElementById('lightbox-caption').innerHTML = activeGalleryData[currentLightboxIndex].caption;
+  setLightboxMedia(activeGalleryData[currentLightboxIndex]);
 }
 
 /* -------------------------------------------------------------
@@ -562,13 +583,17 @@ async function initGallery() {
       card.setAttribute('onclick', `openLightbox(${absoluteIndex})`);
       const formattedSrc = formatCloudinaryUrl(item.src);
       const idTextHtml = isDev ? `<span class="gallery-id-text">#${item.id}</span>` : '';
+      const isVideo = item.type === 'video';
+      const mediaHtml = isVideo
+        ? `<video src="${item.src}" class="gallery-img gallery-video-thumb" autoplay muted loop playsinline preload="metadata"></video>`
+        : `<img src="${formattedSrc}" alt="${escapeHTML(item.caption)}" class="gallery-img" loading="lazy">`;
+      const overlayHtml = isVideo
+        ? `<div class="gallery-overlay"><i class="fas fa-play-circle"></i><span>Watch Video</span></div>`
+        : `<div class="gallery-overlay"><i class="fas fa-search-plus"></i><span>View Image</span></div>`;
       card.innerHTML = `
         <div class="gallery-img-container">
-          <img src="${formattedSrc}" alt="${escapeHTML(item.caption)}" class="gallery-img" loading="lazy">
-          <div class="gallery-overlay">
-            <i class="fas fa-search-plus"></i>
-            <span>View Image</span>
-          </div>
+          ${mediaHtml}
+          ${overlayHtml}
           <span class="gallery-id-badge">
             <img src="assets/Flower 2.svg" class="gallery-flower-badge" aria-hidden="true">
             ${idTextHtml}
@@ -768,106 +793,14 @@ async function loadServiceDetails() {
   const container = document.getElementById('service-details-container');
   if (!container) return;
 
-  const fallbackHTML = `<!-- SERVICE OF SONGS ZOOM DETAILS SECTION -->
-<section id="zoom-service-section" class="zoom-service-section scroll-offset">
-  <div class="section-container">
-    
-    <div class="zoom-card-container">
-      
-      <div class="zoom-card-header">
-        <span class="zoom-header-tag">PLEASE JOIN US FOR THE</span>
-        <h2 class="zoom-header-title">Service of Songs</h2>
-        <p class="zoom-header-sub">Honoring the life &amp; legacy of our beloved</p>
-        
-        <div class="zoom-mobile-swipe-hint">
-          <i class="fas fa-hand-pointer"></i> <span>Swipe for Zoom details</span>
-        </div>
-      </div>
-
-      <div class="zoom-card-body">
-        
-        <p class="zoom-invite-text">
-          <i class="fas fa-users-rectangle"></i>
-          The Rhodes-Vivour family invites you to a scheduled Zoom meeting
-        </p>
-
-        <div class="zoom-details-wrapper" id="zoom-details-swiper">
-          
-          <div class="zoom-detail-card">
-            <div class="zoom-card-icon-wrap">
-              <i class="far fa-calendar-check"></i>
-            </div>
-            <span class="zoom-detail-label">Date</span>
-            <strong class="zoom-detail-value">Tue, 28 Jul 2026</strong>
-            <span class="zoom-detail-sub">Tuesday, July 28, 2026</span>
-          </div>
-
-          <div class="zoom-detail-card">
-            <div class="zoom-card-icon-wrap">
-              <i class="far fa-clock"></i>
-            </div>
-            <span class="zoom-detail-label">Time</span>
-            <strong class="zoom-detail-value">5:00 PM WAT</strong>
-            <span class="zoom-detail-sub">West Central Africa</span>
-          </div>
-
-          <div class="zoom-detail-card">
-            <div class="zoom-card-icon-wrap">
-              <i class="fas fa-video"></i>
-            </div>
-            <span class="zoom-detail-label">Meeting ID</span>
-            <strong class="zoom-detail-value">417 530 9083</strong>
-            <button type="button" class="copy-small-btn" onclick="copyZoomCredential('4175309083', 'Meeting ID')" title="Copy Meeting ID">
-              <i class="far fa-copy"></i> Copy
-            </button>
-          </div>
-
-          <div class="zoom-detail-card">
-            <div class="zoom-card-icon-wrap">
-              <i class="fas fa-lock"></i>
-            </div>
-            <span class="zoom-detail-label">Passcode</span>
-            <strong class="zoom-detail-value">NRV2026&amp;</strong>
-            <button type="button" class="copy-small-btn" onclick="copyZoomCredential('NRV2026&', 'Passcode')" title="Copy Passcode">
-              <i class="far fa-copy"></i> Copy
-            </button>
-          </div>
-
-        </div>
-
-        <div class="zoom-mobile-dots" id="zoom-mobile-dots">
-          <span class="zoom-dot active" data-slide="0"></span>
-          <span class="zoom-dot" data-slide="1"></span>
-          <span class="zoom-dot" data-slide="2"></span>
-          <span class="zoom-dot" data-slide="3"></span>
-        </div>
-
-        <div class="zoom-actions-wrapper">
-          <a href="https://zoom.us/j/4175309083" target="_blank" rel="noopener" class="btn btn-zoom-join">
-            <i class="fas fa-video"></i> Join Zoom Meeting
-          </a>
-          <button type="button" class="btn btn-outline-gold btn-copy-all" onclick="copyAllZoomDetails()">
-            <i class="far fa-copy"></i> Copy Full Zoom Details
-          </button>
-        </div>
-
-        <p class="zoom-footer-subtext">
-          <em>Your presence, in spirit, means a lot to our family.</em>
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-<!-- MAIN SERVICE DETAILS & FUNERAL SCHEDULE SECTION -->
+  const fallbackHTML = `<!-- MAIN SERVICE DETAILS & FUNERAL SCHEDULE SECTION -->
 <section id="service-details" class="service-details-section scroll-offset">
 
   <!-- Background Flower Watermarks -->
-  <img src="assets/Flower 1.svg" class="service-flower-watermark left-flower" alt="" aria-hidden="true" />
+  <img src="assets/Flower Bunch.svg" class="service-flower-watermark left-flower" alt="" aria-hidden="true" />
+  <img src="assets/Flower 1.svg" class="service-flower-watermark top-right-flower" alt="" aria-hidden="true" />
   <img src="assets/Flower 3.svg" class="service-flower-watermark right-flower" alt="" aria-hidden="true" />
+  <img src="assets/Candle and Flower.svg" class="service-flower-watermark candle-flower-bl" alt="" aria-hidden="true" />
 
   <div class="section-container">
     
@@ -878,6 +811,70 @@ async function loadServiceDetails() {
       <h2 class="section-title">Service Details &amp; Funeral Schedule</h2>
       <div class="title-divider"></div>
       <p class="section-subtitle">Order of events, timings, dress codes, and location maps for family and friends.</p>
+    </div>
+
+    <!-- SERVICE OF SONGS ZOOM DETAILS CARD -->
+    <div id="zoom-service-section" class="zoom-service-section">
+      <div class="zoom-card-container">
+        <div class="zoom-card-header">
+          <span class="zoom-header-tag">PLEASE JOIN US FOR THE</span>
+          <h3 class="zoom-header-title">Service of Songs</h3>
+          <p class="zoom-header-sub">Honoring the life &amp; legacy of our beloved</p>
+          <div class="zoom-mobile-swipe-hint">
+            <i class="fas fa-hand-pointer"></i> <span>Swipe for Zoom details</span>
+          </div>
+        </div>
+        <div class="zoom-card-body">
+          <p class="zoom-invite-text">
+            <i class="fas fa-users-rectangle"></i>
+            The Rhodes-Vivour family invites you to a scheduled Zoom meeting
+          </p>
+          <div class="zoom-details-wrapper" id="zoom-details-swiper">
+            <div class="zoom-detail-card">
+              <div class="zoom-card-icon-wrap"><i class="far fa-calendar-check"></i></div>
+              <span class="zoom-detail-label">Date</span>
+              <strong class="zoom-detail-value">Tue, 28 Jul 2026</strong>
+              <span class="zoom-detail-sub">Tuesday, July 28, 2026</span>
+            </div>
+            <div class="zoom-detail-card">
+              <div class="zoom-card-icon-wrap"><i class="far fa-clock"></i></div>
+              <span class="zoom-detail-label">Time</span>
+              <strong class="zoom-detail-value">5:00 PM WAT</strong>
+              <span class="zoom-detail-sub">West Central Africa</span>
+            </div>
+            <div class="zoom-detail-card">
+              <div class="zoom-card-icon-wrap"><i class="fas fa-video"></i></div>
+              <span class="zoom-detail-label">Meeting ID</span>
+              <strong class="zoom-detail-value">417 530 9083</strong>
+              <button type="button" class="copy-small-btn" onclick="copyZoomCredential('4175309083', 'Meeting ID')" title="Copy Meeting ID">
+                <i class="far fa-copy"></i> Copy
+              </button>
+            </div>
+            <div class="zoom-detail-card">
+              <div class="zoom-card-icon-wrap"><i class="fas fa-lock"></i></div>
+              <span class="zoom-detail-label">Passcode</span>
+              <strong class="zoom-detail-value">NRV2026&amp;</strong>
+              <button type="button" class="copy-small-btn" onclick="copyZoomCredential('NRV2026&', 'Passcode')" title="Copy Passcode">
+                <i class="far fa-copy"></i> Copy
+              </button>
+            </div>
+          </div>
+          <div class="zoom-mobile-dots" id="zoom-mobile-dots">
+            <span class="zoom-dot active" data-slide="0"></span>
+            <span class="zoom-dot" data-slide="1"></span>
+            <span class="zoom-dot" data-slide="2"></span>
+            <span class="zoom-dot" data-slide="3"></span>
+          </div>
+          <div class="zoom-actions-wrapper">
+            <a href="https://zoom.us/j/4175309083" target="_blank" rel="noopener" class="btn btn-zoom-join">
+              <i class="fas fa-video"></i> Join Zoom Meeting
+            </a>
+          </div>
+          <p class="zoom-footer-subtext">
+            <em>Your presence, in spirit, means a lot to our family.</em>
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="service-3x2-grid">

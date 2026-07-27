@@ -140,7 +140,13 @@
   {
     "id": "024",
     "category": "family",
-    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1784304094/IMG_20260717_0015_z9ybze.jpg",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785145708/oldernwedding_gyz9hz.png",
+    "caption": "A Home Filled with Laughter"
+  },
+  {
+    "id": "024a",
+    "category": "family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785145705/Mr_and_Mrs_Rhodes_with_the_king_rxrn0z.png",
     "caption": "A Home Filled with Laughter"
   },
   {
@@ -222,9 +228,15 @@
     "caption": "Celebrating Lifelong Milestones"
   },
   {
+    "id": "037b",
+    "category": "family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785148093/ChatGPT_Image_Jul_27_2026_11_17_36_AM_hvfe5k.png",
+    "caption": "Celebrating Lifelong Milestones"
+  },
+  {
     "id": "038",
     "category": "family",
-    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1784305576/IMG_20260717_0013_rrrm37.jpg",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785151212/ChatGPT_Image_Jul_27_2026_11_42_59_AM_llbknn.png",
     "caption": "Generations of Grace"
   },
   {
@@ -284,7 +296,13 @@
   {
     "id": "048",
     "category": "youth",
-    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1784548787/img2_wffzsa.jpg",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785144868/v_yi0uic.png",
+    "caption": "Graceful Steps into Adulthood"
+  },
+  {
+    "id": "048",
+    "category": "youth",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785144867/youth_tmibck.jpg",
     "caption": "Graceful Steps into Adulthood"
   },
   {
@@ -348,6 +366,12 @@
     "caption": "Beginning of a Beautiful Journey"
   },
   {
+    "id": "058b",
+    "category": "wedding",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785148096/ChatGPT_Image_Jul_27_2026_11_20_08_AM_zhaqui.png",
+    "caption": "A Beautiful Holy Matrimony"
+  },
+  {
     "id": "059",
     "category": "university",
     "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1784304057/IMG_20260717_0002_wll7ku.jpg",
@@ -380,7 +404,7 @@
   {
     "id": "064",
     "category": "sec_school",
-    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1784304049/IMG_20260717_0002_zknwst.jpg",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785145354/IMG_20260717_0002_rvyq3a.jpg",
     "caption": "A Bright Young Mind"
   },
   {
@@ -388,5 +412,145 @@
     "category": "sec_school",
     "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1784304049/IMG_20260717_0001_ygh9yw.jpg",
     "caption": "Early School Graduation"
+  },
+  {
+    "id": "066",
+    "category": "sec_school",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785145353/IMG-20260724-WA0015_npuote.jpg",
+    "caption": "Early School Graduation"
+  },
+  {
+    "id": "067",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146295/Grv_and_family2-1_r2b8r6.png",
+    "caption": "A Family Portrait of Love & Legacy"
+  },
+  {
+    "id": "068",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146293/gallery-4_chu6wm.png",
+    "caption": "Togetherness in Every Season"
+  },
+  {
+    "id": "069",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146291/9_mupzlb.png",
+    "caption": "Cherished Family Moments"
+  },
+  {
+    "id": "070",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146288/8_rnfnef.png",
+    "caption": "Bound by Love & Blood"
+  },
+  {
+    "id": "071",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146272/7_ff3b4h.jpg",
+    "caption": "Warmth of a Devoted Family"
+  },
+  {
+    "id": "072",
+    "category": "new_family",
+    "type": "video",
+    "src": "https://res.cloudinary.com/dth0on4sc/video/upload/v1785146271/1_ylkvfd.mp4",
+    "caption": "A Precious Family Memory in Motion"
+  },
+  {
+    "id": "073",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146270/6_j24jzj.jpg",
+    "caption": "Joyful Gatherings of Kinship"
+  },
+  {
+    "id": "074",
+    "category": "new_family",
+    "type": "video",
+    "src": "https://res.cloudinary.com/dth0on4sc/video/upload/v1785146269/2_xrcz0c.mp4",
+    "caption": "Living Memories — A Family Celebration"
+  },
+  {
+    "id": "075",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146268/3_xmg4h6.jpg",
+    "caption": "Sharing Stories Across Generations"
+  },
+  {
+    "id": "076",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146267/2_isenpg.jpg",
+    "caption": "Hearts United as One"
+  },
+  {
+    "id": "077",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146263/10_iz6j0n.jpg",
+    "caption": "A Home Full of Laughter & Grace"
+  },
+  {
+    "id": "078",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146262/5_chwlqw.jpg",
+    "caption": "Precious Bonds That Last Forever"
+  },
+  {
+    "id": "079",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146261/4_kfgoyy.jpg",
+    "caption": "A Mother's Love Reflected in Family"
+  },
+  {
+    "id": "080",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146257/1_svjef4.jpg",
+    "caption": "Rooted in Faith & Togetherness"
+  },
+  {
+    "id": "081",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146248/08_vfaguu.jpg",
+    "caption": "Celebration of Family Heritage"
+  },
+  {
+    "id": "082",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146246/07_lthgpc.jpg",
+    "caption": "Surrounded by Those She Loved Most"
+  },
+  {
+    "id": "083",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146245/06_kjnogi.jpg",
+    "caption": "A Legacy of Devotion & Joy"
+  },
+  {
+    "id": "084",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146243/05_d8ukpn.jpg",
+    "caption": "Moments That Echo in Our Hearts"
+  },
+  {
+    "id": "085",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146241/04_nr9oe4.jpg",
+    "caption": "Anchored in Love"
+  },
+  {
+    "id": "086",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146239/03_uyjaaf.jpg",
+    "caption": "A Family Knit Together in Grace"
+  },
+  {
+    "id": "087",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1785146237/00_j2yu1s.jpg",
+    "caption": "A Lifetime of Love Shared"
+  },
+  {
+    "id": "088",
+    "category": "new_family",
+    "src": "https://res.cloudinary.com/dth0on4sc/image/upload/v1784305576/IMG_20260717_0013_rrrm37.jpg",
+    "caption": "Generations of Grace"
   }
 ]
