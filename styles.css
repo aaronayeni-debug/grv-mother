@@ -748,7 +748,8 @@ h1, h2, h3, h4 {
   box-shadow: 0 2px 10px rgba(197, 168, 128, 0.2);
 }
 
-.gallery-card.frame-family {
+.gallery-card.frame-family,
+.gallery-card.frame-new_family {
   border: 2px solid rgba(160, 120, 80, 0.4);
   box-shadow: 0 2px 10px rgba(160, 120, 80, 0.15);
 }
@@ -3029,19 +3030,39 @@ h1, h2, h3, h4 {
     padding: 1.3rem 1rem;
   }
   .service-flower-watermark {
-    width: 260px;
-    max-width: 60vw;
-    opacity: 0.22;
+    width: 170px;
+    max-width: 45vw;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 1;
   }
   .service-flower-watermark.left-flower {
-    top: 10px;
-    left: -40px;
+    top: -15px;
+    left: -50px;
     transform: rotate(-15deg);
+    width: 160px;
+    opacity: 0.12;
+  }
+  .service-flower-watermark.top-right-flower {
+    top: -15px;
+    right: -50px;
+    transform: rotate(-15deg);
+    width: 160px;
+    opacity: 0.12;
   }
   .service-flower-watermark.right-flower {
-    bottom: 10px;
+    bottom: -10px;
     right: -40px;
     transform: rotate(165deg);
+    width: 180px;
+    opacity: 0.16;
+  }
+  .service-flower-watermark.candle-flower-bl {
+    bottom: -10px;
+    left: -25px;
+    width: 180px;
+    transform: rotate(10deg);
+    opacity: 0.18;
   }
   /* Tribute & Gallery pagination: icon-only on small screens */
   .tributes-pagination .btn-page .page-label,
