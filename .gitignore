@@ -2,7 +2,6 @@
 AMAZING GRACE (Lyrics) - SUSAN BOYLE [A0gLntLIBYw].mp3
 FireShot/
 
-
 *.png
 *.jpeg
 *.jpg
@@ -13,3 +12,6 @@ FireShot/
 !assets/*.png
 !assets/*.mp3
 !assets/*.svg
+# Do not ignore images directory
+!images/
+!images/**
