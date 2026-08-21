@@ -1,17 +1,31 @@
-# Ignore raw source files and reference folders
-AMAZING GRACE (Lyrics) - SUSAN BOYLE [A0gLntLIBYw].mp3
+# Raw media and heavy local folders (now served via ImageKit CDN)
+images/
 FireShot/
+AMAZING GRACE (Lyrics) - SUSAN BOYLE [A0gLntLIBYw].mp3
 
+# Environment and sensitive credentials
+.env
+*.env
+
+# Dependencies and lock files
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+skills-lock.json
+
+# Agent and tool config directories
+.agents/
+.claude/
+agent/
+
+# Documents & raw root images
+*.docx
 *.png
 *.jpeg
 *.jpg
-*.docx
-# Do not ignore assets directory
+
+# Allow essential UI assets (icons, watermarks, background music)
 !assets/
-!assets/*.jpg
-!assets/*.png
-!assets/*.mp3
-!assets/*.svg
-# Do not ignore images directory
-!images/
-!images/**
+!assets/**
+assets/*.docx
+

@@ -545,10 +545,10 @@ async function initGallery() {
 
   // Load from external json
   try {
-    const res = await fetch('gallery.json');
+    const res = await fetch('gallery_imagekit.json');
     galleryData = await res.json();
   } catch (err) {
-    console.error('Failed to load gallery.json:', err);
+    console.error('Failed to load gallery_imagekit.json:', err);
     galleryData = [];
   }
 
