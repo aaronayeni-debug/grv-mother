@@ -8,6 +8,7 @@ AMAZING GRACE (Lyrics) - SUSAN BOYLE [A0gLntLIBYw].mp3
 *.env
 
 # Dependencies and lock files
+deploy/
 node_modules/
 package-lock.json
 pnpm-lock.yaml
